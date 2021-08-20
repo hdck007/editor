@@ -10,6 +10,7 @@ import {
 	FaQuoteRight,
 	FaCode,
 } from 'react-icons/fa';
+import { LegacyRef } from 'react';
 
 type Props = {
 	children: React.ReactChild;
@@ -34,7 +35,7 @@ export const Button = React.forwardRef(
 				reversed: boolean;
 			} & BaseProps
 		>,
-		ref: Ref<OrNull<HTMLSpanElement>>
+		ref: LegacyRef<HTMLSpanElement>
 	) => (
 		<span
 			{...props}
@@ -51,14 +52,14 @@ export const Button = React.forwardRef(
 export const Icon = React.forwardRef(
 	(
 		{ className, ...props }: PropsWithChildren<BaseProps>,
-		ref: Ref<OrNull<HTMLSpanElement>>
+		ref: LegacyRef<HTMLSpanElement>
 	) => <span {...props} ref={ref} className='align-bottom text-xl' />
 );
 
 export const Menu = React.forwardRef(
 	(
 		{ className, ...props }: PropsWithChildren<BaseProps>,
-		ref: Ref<OrNull<HTMLDivElement>>
+		ref: LegacyRef<HTMLDivElement>
 	) => (
 		<div
 			{...props}
@@ -76,7 +77,7 @@ export const Toolbar = React.forwardRef(
 			isMarkdown,
 			...props
 		}: PropsWithChildren<BaseProps>,
-		ref: Ref<OrNull<HTMLDivElement>>
+		ref: Ref<HTMLDivElement>
 	) => (
 		<div className='w-full sticky top-0 bg-gray-200 py-3 px-6 rounded-sm mb-2 z-10 flex justify-between'>
 			<Menu {...props} ref={ref}>

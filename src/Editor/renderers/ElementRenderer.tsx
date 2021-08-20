@@ -1,4 +1,4 @@
-export const Element = ({ attributes, children, element }) => {
+export const Element = ({ attributes, children, element }: any) => {
 	// console.log({ attributes, children, element });
 
 	switch (element.type) {

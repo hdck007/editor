@@ -1,4 +1,4 @@
-export const Leaf = ({ attributes, children, leaf }) => {
+export const Leaf = ({ attributes, children, leaf }: any) => {
 	if (leaf.bold) {
 		children = <strong>{children}</strong>;
 	}
