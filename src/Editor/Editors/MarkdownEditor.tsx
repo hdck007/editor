@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
-import { Slate, Editable, withReact } from 'slate-react';
+import { Slate, Editable, withReact, ReactEditor } from 'slate-react';
 import {
 	Editor,
 	Transforms,
@@ -10,13 +10,13 @@ import {
 	BaseEditor,
 } from 'slate';
 import { withHistory } from 'slate-history';
-import { BulletedListElement } from './custom-types';
 import { Toolbar } from '../Components/editorComponents';
 import { Element } from '../renderers/ElementRenderer';
 import { Leaf } from '../renderers/LeafRenderer';
 import { withLinks } from '../Plugins/Links';
+import { CustomEditor } from '../Types/EditorTypes';
 
-const SHORTCUTS = {
+const SHORTCUTS: any = {
 	'*': 'list-item',
 	'-': 'list-item',
 	'+': 'list-item',
@@ -25,17 +25,25 @@ const SHORTCUTS = {
 	'##': 'heading-two',
 };
 
-const MarkDownEditor = ({ isMarkdown, setIsMarkdown, value, setValue }) => {
+const MarkDownEditor = ({
+	isMarkdown,
+	setIsMarkdown,
+	value,
+	setValue,
+}: any) => {
 	const renderElement = useCallback((props) => <Element {...props} />, []);
 	const renderLeaf = useCallback((props) => <Leaf {...props} />, []);
 	const editor = useMemo(
-		() => withShortcuts(withLinks(withReact(withHistory(createEditor())))),
+		() =>
+			withShortcuts(
+				withLinks(withReact(withHistory(createEditor() as CustomEditor)))
+			),
 		[]
 	);
 	return (
 		<div className='mx-auto my-9 w-5/6 h-3/4 border-2 md:w-6/6 px-5 pb-4 overflow-y-auto relative'>
 			<Slate
-				editor={editor}
+				editor={editor as ReactEditor}
 				value={value}
 				onChange={(value) => setValue(value)}
 			>
@@ -58,7 +66,7 @@ const MarkDownEditor = ({ isMarkdown, setIsMarkdown, value, setValue }) => {
 	);
 };
 
-const withShortcuts = (editor: BaseEditor) => {
+const withShortcuts = (editor: CustomEditor) => {
 	const { deleteBackward, insertText } = editor;
 
 	editor.insertText = (text) => {
@@ -86,7 +94,7 @@ const withShortcuts = (editor: BaseEditor) => {
 				});
 
 				if (type === 'list-item') {
-					const list: BulletedListElement = {
+					const list: any = {
 						type: 'bulleted-list',
 						children: [],
 					};

@@ -1,11 +1,5 @@
-import {
-	Transforms,
-	Editor,
-	Range,
-	Element as SlateElement,
-	BaseEditor,
-	NodeMatch,
-} from 'slate';
+import { Transforms, Editor, Range, Element as SlateElement } from 'slate';
+import { CustomEditor, CustomElement } from '../Types/EditorTypes';
 
 const LIST_TYPES = ['numbered-list', 'bulleted-list'];
 
@@ -22,13 +16,13 @@ export function isValidURL(str: string) {
 	return !!pattern.test(str);
 }
 
-export const insertLink = (editor: BaseEditor, url: string) => {
+export const insertLink = (editor: CustomEditor, url: string) => {
 	if (editor.selection) {
 		wrapLink(editor, url);
 	}
 };
 
-export const isLinkActive = (editor: BaseEditor) => {
+export const isLinkActive = (editor: CustomEditor) => {
 	const link: any = Editor.nodes(editor, {
 		match: (n) =>
 			!Editor.isEditor(n) && SlateElement.isElement(n) && n.type === 'link',
@@ -36,14 +30,14 @@ export const isLinkActive = (editor: BaseEditor) => {
 	return !!link[0];
 };
 
-export const unwrapLink = (editor: BaseEditor) => {
+export const unwrapLink = (editor: CustomEditor) => {
 	Transforms.unwrapNodes(editor, {
 		match: (n) =>
 			!Editor.isEditor(n) && SlateElement.isElement(n) && n.type === 'link',
 	});
 };
 
-export const wrapLink = (editor: BaseEditor, url: string) => {
+export const wrapLink = (editor: CustomEditor, url: string) => {
 	if (isLinkActive(editor)) {
 		unwrapLink(editor);
 	}
@@ -64,30 +58,30 @@ export const wrapLink = (editor: BaseEditor, url: string) => {
 	}
 };
 
-export const toggleBlock = (editor: BaseEditor, format: string) => {
+export const toggleBlock = (editor: CustomEditor, format: string) => {
 	const isActive = isBlockActive(editor, format);
 	const isList = LIST_TYPES.includes(format);
 
 	Transforms.unwrapNodes(editor, {
 		match: (n) =>
-			LIST_TYPES.includes(
-				!Editor.isEditor(n) && SlateElement.isElement(n) && n.type
-			),
+			!Editor.isEditor(n) &&
+			SlateElement.isElement(n) &&
+			LIST_TYPES.includes(n.type),
 		split: true,
 	});
-	const newProperties: Partial<SlateElement & { type: string }> = {
+	const newProperties: Partial<SlateElement> = {
 		type: isActive ? 'paragraph' : isList ? 'list-item' : format,
 	};
 	Transforms.setNodes(editor, newProperties);
 
 	if (!isActive && isList) {
-		const block = { type: format, children: [] };
+		const block: CustomElement = { type: format, children: [] };
 		Transforms.wrapNodes(editor, block);
 	}
 };
 
 // removes or adds a mark based on the current condition
-export const toggleMark = (editor: BaseEditor, format: string) => {
+export const toggleMark = (editor: CustomEditor, format: string) => {
 	const isActive = isMarkActive(editor, format);
 
 	if (isActive) {
@@ -97,7 +91,7 @@ export const toggleMark = (editor: BaseEditor, format: string) => {
 	}
 };
 
-export const isBlockActive = (editor: BaseEditor, format: string) => {
+export const isBlockActive = (editor: CustomEditor, format: string) => {
 	const [match]: any = Editor.nodes(editor, {
 		match: (n) =>
 			!Editor.isEditor(n) && SlateElement.isElement(n) && n.type === format,
@@ -108,7 +102,7 @@ export const isBlockActive = (editor: BaseEditor, format: string) => {
 
 // It returns whether a mark at the pointer or selection present
 // eg if we have bold text then this would give true for the bold mark
-export const isMarkActive = (editor: BaseEditor, format: string) => {
+export const isMarkActive = (editor: CustomEditor, format: string) => {
 	// Get the marks that are already applied
 	// marks {mark: boolean}
 	const marks: any = Editor.marks(editor);

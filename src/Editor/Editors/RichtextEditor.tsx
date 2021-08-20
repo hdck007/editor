@@ -29,7 +29,7 @@ const RichTextEditor = ({
 	const renderElement = useCallback((props) => <Element {...props} />, []);
 	const renderLeaf = useCallback((props) => <Leaf {...props} />, []);
 	const editor = useMemo(
-		() => withHistory(withLinks(withReact(createEditor() as ReactEditor))),
+		() => withHistory(withLinks(withReact(createEditor() as CustomEditor))),
 		[]
 	);
 

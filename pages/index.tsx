@@ -11,7 +11,7 @@ const RichTextPage: NextPage = () => {
 
 	return (
 		<EditorLayout>
-			{true ? (
+			{isMarkdown ? (
 				<MarkDownEditor
 					isMarkdown={isMarkdown}
 					setIsMarkdown={setIsMarkdown}
