@@ -4,7 +4,11 @@ export const Leaf = ({ attributes, children, leaf }: any) => {
 	}
 
 	if (leaf.code) {
-		children = <code>{children}</code>;
+		children = (
+			<code className='bg-gray-200 font-mono p-2 leading-3 border-r-4 w-full'>
+				{children}
+			</code>
+		);
 	}
 
 	if (leaf.italic) {

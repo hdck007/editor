@@ -7,7 +7,6 @@ import {
 	Point,
 	createEditor,
 	Element as SlateElement,
-	BaseEditor,
 } from 'slate';
 import { withHistory } from 'slate-history';
 import { Toolbar } from '../Components/editorComponents';
@@ -41,7 +40,7 @@ const MarkDownEditor = ({
 		[]
 	);
 	return (
-		<div className='mx-auto my-9 w-5/6 h-3/4 border-2 md:w-6/6 px-5 pb-4 overflow-y-auto relative'>
+		<div className='mx-auto my-9 w-5/6 h-3/4 md:w-6/6 px-5 pb-4 overflow-y-auto relative'>
 			<Slate
 				editor={editor as ReactEditor}
 				value={value}

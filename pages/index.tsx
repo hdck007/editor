@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { NextPage } from 'next';
 import EditorLayout from '../src/Editor/Layout/editorLayout';
 import RichTextEditor from '../src/Editor/Editors/RichtextEditor';
-import MarkDownEditor from '../src/Editor/Editors/MarkdownEditor';
 import { Descendant } from 'slate';
+import MDEditor from '../src/Editor/Editors/MDEditor';
 
 const RichTextPage: NextPage = () => {
 	const [isMarkdown, setIsMarkdown] = useState(false);
@@ -12,7 +12,7 @@ const RichTextPage: NextPage = () => {
 	return (
 		<EditorLayout>
 			{isMarkdown ? (
-				<MarkDownEditor
+				<MDEditor
 					isMarkdown={isMarkdown}
 					setIsMarkdown={setIsMarkdown}
 					value={value}
