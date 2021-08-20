@@ -30,7 +30,7 @@ const RichTextPage: NextPage = () => {
 	);
 };
 
-const initialValue: Descendant[] = [
+const initialValue: any = [
 	{
 		type: 'paragraph',
 		children: [{ text: 'This is editable ' }],
