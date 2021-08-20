@@ -76,10 +76,10 @@ export const Toolbar = React.forwardRef(
 			setIsMarkdown,
 			isMarkdown,
 			...props
-		}: PropsWithChildren<BaseProps>,
+		}: PropsWithChildren<BaseProps> | any,
 		ref: Ref<HTMLDivElement>
 	) => (
-		<div className='w-full sticky top-0 bg-gray-200 py-3 px-6 rounded-sm mb-2 z-10 flex justify-between'>
+		<div className='w-full sticky top-0 bg-gray-200 py-3 pr-6 rounded-sm mb-2 z-10 flex justify-between'>
 			<Menu {...props} ref={ref}>
 				<MarkButton format='bold' icon={<FaBold />} />
 				<MarkButton format='italic' icon={<FaItalic />} />
@@ -90,6 +90,9 @@ export const Toolbar = React.forwardRef(
 				<BlockButton format='bulleted-list' icon={<AiOutlineUnorderedList />} />
 				<LinkButton icon={<BsLink45Deg />} />
 			</Menu>
+			<Button onClick={() => setIsMarkdown((prev: boolean) => !prev)}>
+				{isMarkdown ? 'Editor Mode' : 'Markdown Mode'}
+			</Button>
 		</div>
 	)
 );
