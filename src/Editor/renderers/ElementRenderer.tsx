@@ -24,12 +24,12 @@ export const Element = ({ attributes, children, element }: any) => {
 			);
 		case 'block-quote':
 			return (
-				<blockquote
+				<div
 					className='pl-5 border-l-8 border-purple-500 bg-indigo-200'
 					{...attributes}
 				>
 					{children}
-				</blockquote>
+				</div>
 			);
 		case 'bulleted-list':
 			return <ul {...attributes}>{children}</ul>;

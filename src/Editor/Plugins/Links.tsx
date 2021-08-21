@@ -1,4 +1,4 @@
-import { BaseElement, Editor } from 'slate';
+import { Editor } from 'slate';
 import { ReactEditor } from 'slate-react';
 import { wrapLink } from '../Utility/utils';
 import { isValidURL } from '../Utility/utils';

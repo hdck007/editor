@@ -19,5 +19,13 @@ export const Leaf = ({ attributes, children, leaf }: any) => {
 		children = <u>{children}</u>;
 	}
 
+	if (leaf.title) {
+		return (
+			<h2 className='text-2xl' {...attributes}>
+				{children}
+			</h2>
+		);
+	}
+
 	return <span {...attributes}>{children}</span>;
 };

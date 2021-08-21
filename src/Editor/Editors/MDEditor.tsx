@@ -4,7 +4,6 @@ import { Slate, Editable, withReact } from 'slate-react';
 import { Text, createEditor } from 'slate';
 import { withHistory } from 'slate-history';
 import { Toolbar } from '../Components/editorComponents';
-import { Leaf } from '../renderers/LeafRenderer';
 
 (Prism.languages.markdown = Prism.languages.extend('markup', {})),
 	Prism.languages.insertBefore('markdown', 'prolog', {
@@ -137,22 +136,22 @@ const MDEditor = ({ isMarkdown, setIsMarkdown, value, setValue }: any) => {
 	);
 };
 
-// const Leaf = ({ attributes, children, leaf }: any) => {
-// 	return (
-// 		<span
-// 			{...attributes}
-// 			className={`${leaf.bold && 'font-bold'}
-//         ${leaf.italic && 'italic'}
-//         ${leaf.underlined && 'underline'}
-//         ${leaf.title && 'inline-block font-bold text-xl mx-0 mt-5 mb-3'}
-//         ${leaf.list && 'pl-5 text-xl leading-3'}
-//         ${leaf.hr && 'inline-block text-center border-b-2'}
-//         ${leaf.blockquote && 'inline-block border-l-2 pl-3 bg-blue-300 italic'}
-//         ${leaf.code && 'bg-gray-200 font-mono py-1'}`}
-// 		>
-// 			{children}
-// 		</span>
-// 	);
-// };
+const Leaf = ({ attributes, children, leaf }: any) => {
+	return (
+		<span
+			{...attributes}
+			className={`${leaf.bold && 'font-bold'}
+        ${leaf.italic && 'italic'}
+        ${leaf.underlined && 'underline'}
+        ${leaf.title && 'inline-block font-bold text-xl mx-0 mt-5 mb-3'}
+        ${leaf.list && 'pl-5 text-xl leading-3'}
+        ${leaf.hr && 'inline-block text-center border-b-2'}
+        ${leaf.blockquote && 'inline-block border-l-2 pl-3 bg-blue-300 italic'}
+        ${leaf.code && 'bg-gray-200 font-mono py-1'}`}
+		>
+			{children}
+		</span>
+	);
+};
 
 export default MDEditor;
