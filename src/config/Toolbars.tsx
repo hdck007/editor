@@ -47,7 +47,7 @@ import {
 	MARK_BG_COLOR,
 	ToolbarColorPicker,
 } from '@udecode/plate';
-import { BsCodeSlash, BsCardImage, BsImage } from 'react-icons/bs';
+import { BsCodeSlash, BsImage } from 'react-icons/bs';
 import {
 	BiCodeBlock,
 	BiBorderAll,
@@ -74,9 +74,6 @@ import { FiAlignJustify, FiLink } from 'react-icons/fi';
 import {
 	MdBorderClear,
 	MdLooks3,
-	MdLooks4,
-	MdLooks5,
-	MdLooks6,
 	MdLooksOne,
 	MdLooksTwo,
 	MdFontDownload,
@@ -98,18 +95,6 @@ export const ToolbarButtonsBasicElements = () => {
 			<ToolbarElement
 				type={getPlatePluginType(editor, ELEMENT_H3)}
 				icon={<MdLooks3 />}
-			/>
-			<ToolbarElement
-				type={getPlatePluginType(editor, ELEMENT_H4)}
-				icon={<MdLooks4 />}
-			/>
-			<ToolbarElement
-				type={getPlatePluginType(editor, ELEMENT_H5)}
-				icon={<MdLooks5 />}
-			/>
-			<ToolbarElement
-				type={getPlatePluginType(editor, ELEMENT_H6)}
-				icon={<MdLooks6 />}
 			/>
 			<ToolbarElement
 				type={getPlatePluginType(editor, ELEMENT_BLOCKQUOTE)}
@@ -281,8 +266,8 @@ export const ToolbarButtons = () => (
 		<ToolbarButtonsBasicElements />
 		<ToolbarButtonsList />
 		<ToolbarButtonsBasicMarks />
-		<ToolbarColorPicker pluginKey={MARK_COLOR} icon={<BiFontColor />} />
-		<ToolbarColorPicker pluginKey={MARK_BG_COLOR} icon={<MdFontDownload />} />
+		{/* <ToolbarColorPicker pluginKey={MARK_COLOR} icon={<BiFontColor />} />
+		<ToolbarColorPicker pluginKey={MARK_BG_COLOR} icon={<MdFontDownload />} /> */}
 		<ToolbarButtonsAlign />
 		<ToolbarLink icon={<FiLink />} />
 		<ToolbarImage icon={<BsImage />} />

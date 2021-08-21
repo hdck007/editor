@@ -3,6 +3,7 @@ import {
 	ELEMENT_LIC,
 	ELEMENT_PARAGRAPH,
 	ELEMENT_UL,
+	TElement,
 } from '@udecode/plate';
 import { Text } from 'slate';
 
@@ -16,7 +17,7 @@ export const createElement = (
 		mark?: string;
 	} = {}
 ) => {
-	const leaf = { text };
+	const leaf: any = { text };
 	if (mark) {
 		leaf[mark] = true;
 	}

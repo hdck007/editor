@@ -1,40 +1,13 @@
-import React, { useState } from 'react';
 import { NextPage } from 'next';
-import EditorLayout from '../src/Editor/Layout/editorLayout';
-import RichTextEditor from '../src/Editor/Editors/RichtextEditor';
-import { Descendant } from 'slate';
-import MDEditor from '../src/Editor/Editors/MDEditor';
+import EditorLayout from '../src/EditorLayout';
+import Plugins from '../src/RichEditor';
 
 const RichTextPage: NextPage = () => {
-	const [isMarkdown, setIsMarkdown] = useState(false);
-	const [value, setValue] = useState<Descendant[]>(initialValue);
-
 	return (
 		<EditorLayout>
-			{isMarkdown ? (
-				<MDEditor
-					isMarkdown={isMarkdown}
-					setIsMarkdown={setIsMarkdown}
-					value={value}
-					setValue={setValue}
-				/>
-			) : (
-				<RichTextEditor
-					isMarkdown={isMarkdown}
-					setIsMarkdown={setIsMarkdown}
-					value={value}
-					setValue={setValue}
-				/>
-			)}
+			<Plugins />;
 		</EditorLayout>
 	);
 };
-
-const initialValue: any = [
-	{
-		type: 'paragraph',
-		children: [{ text: 'This is editable ' }],
-	},
-];
 
 export default RichTextPage;

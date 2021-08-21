@@ -1,4 +1,4 @@
-import React, { ReactChild } from 'react';
+import React from 'react';
 
 export default function EditorLayout({ children }: any) {
 	return (

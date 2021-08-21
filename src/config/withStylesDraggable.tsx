@@ -1,5 +1,6 @@
+/* eslint-disable react/display-name */
 import React from 'react';
-import { DragIndicator } from '@styled-icons/material/DragIndicator';
+import { GrDrag } from 'react-icons/gr';
 import {
 	ELEMENT_BLOCKQUOTE,
 	ELEMENT_CODE_BLOCK,
@@ -68,8 +69,8 @@ export const withStyledDraggables = (components: any) => {
 			onRenderDragHandle: ({ className, styles }) => {
 				return (
 					<Tippy {...grabberTooltipProps}>
-						<button type='button' className={className} css={styles}>
-							<DragIndicator
+						<button type='button' className={className}>
+							<GrDrag
 								style={{
 									width: 18,
 									height: 18,
