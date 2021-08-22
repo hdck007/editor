@@ -163,7 +163,7 @@ const Plugins = () => {
 	}, [mentionPlugin, searchHighlightPlugin]);
 
 	return (
-		<div className='container-editor mx-auto my-9 w-5/6 h-5/6 md:w-6/6 pb-4 overflow-y-auto relative'>
+		<div className='container-editor mx-auto my-9 w-5/6 h-5/6 md:w-6/6 pb-4 overflow-y-auto relative overflow-x-hidden'>
 			<DndProvider backend={HTML5Backend}>
 				<Plate
 					id={id}
@@ -173,11 +173,11 @@ const Plugins = () => {
 					editableProps={editableProps}
 					// initialValue={initialValuePlayground}
 				>
-					<div className='sticky top-0 bg-gray-200 rounded-sm z-10 h-11 overflow-hidden px-1 mb-3'>
-						<HeadingToolbar>
+					<HeadingToolbar>
+						<div className='sticky top-0 w-full bg-gray-200 rounded-lg z-10 px-1 flex items-center flex-wrap py-3'>
 							<ToolbarButtons />
-						</HeadingToolbar>
-					</div>
+						</div>
+					</HeadingToolbar>
 					<BallonToolbarMarks />
 
 					<MentionSelect
