@@ -33,7 +33,7 @@ type Photo = {
 	};
 };
 
-const ImageUpload = () => {
+const ImageUpload: React.FC<{ handleOk: Function }> = ({ handleOk }) => {
 	const editor = useEditorRef();
 
 	// console.log(editor);
@@ -72,6 +72,7 @@ const ImageUpload = () => {
 			} else if (status === 'error') {
 				message.error(`${info.file.name} file upload failed.`);
 			}
+			handleOk();
 		},
 		onDrop(e: any) {
 			console.log('Dropped files', e.dataTransfer.files);
@@ -130,9 +131,13 @@ const ImageUploadAndSearch = ({ data, setPhotosResponse, handleOk }: any) => {
 
 	return (
 		<>
-			<ImageUpload />
+			<ImageUpload handleOk={handleOk} />
 			<h3 className='py-2'>Or</h3>
-			<Search placeholder='input search text' onSearch={onSearch} />
+			<Search
+				placeholder='input search text'
+				onSearch={onSearch}
+				allowClear={true}
+			/>
 			<div className='overflow-y-auto h-72'>
 				<ul>
 					{data.response.results.map((photo: Photo) => (

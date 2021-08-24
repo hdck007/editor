@@ -173,7 +173,7 @@ const Plugins = () => {
 					editableProps={editableProps}
 					// initialValue={initialValuePlayground}
 				>
-					<div className='sticky top-0 z-10'>
+					<div className='sticky top-0 z-10 bg-white'>
 						<HeadingToolbar>
 							<div className='w-full bg-gray-200 rounded-lg px-1 flex items-center flex-wrap py-3'>
 								<ToolbarButtons />

@@ -315,17 +315,7 @@ export const ToolbarButtons = () => {
 			{/* <ToolbarColorPicker pluginKey={MARK_COLOR} icon={<BiFontColor />} />
 		<ToolbarColorPicker pluginKey={MARK_BG_COLOR} icon={<MdFontDownload />} /> */}
 			<ToolbarButtonsAlign />
-			<ToolbarLink
-				getLinkUrl={(prevUrl) =>
-					new Promise((resolve, reject) => {
-						if (prevUrl) {
-							resolve('');
-						}
-						resolve('Foo');
-					})
-				}
-				icon={<FiLink />}
-			/>
+			<ToolbarLink icon={<FiLink />} />
 			<ToolbarButton onMouseDown={() => setVisible(true)} icon={<BsImage />} />
 			<ToolbarButtonsTable />
 		</>
