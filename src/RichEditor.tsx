@@ -10,7 +10,7 @@ import {
 	Plate,
 	ToolbarSearchHighlight,
 	createAlignPlugin,
-	// createAutoformatPlugin,
+	createAutoformatPlugin,
 	createBlockquotePlugin,
 	createBoldPlugin,
 	createCodeBlockPlugin,
@@ -63,7 +63,7 @@ import {
 	optionsMentionPlugin,
 	optionsResetBlockTypePlugin,
 	optionsSoftBreakPlugin,
-	// optionsAutoformat,
+	optionsAutoformat,
 } from './config/pluginOptions';
 import { renderMentionLabel } from './config/renderMentionLabel';
 import { BallonToolbarMarks, ToolbarButtons } from './config/Toolbars';
@@ -76,7 +76,7 @@ import { ReactEditor } from 'slate-react';
 
 type TEditor = SPEditor & ReactEditor & HistoryEditor;
 
-const id = 'Examples/Playground';
+const id = 'Examples/Prototype';
 
 let components = createPlateComponents({
 	[ELEMENT_MENTION]: withProps(MentionElement, {
@@ -136,7 +136,7 @@ const Plugins = () => {
 			createKbdPlugin(),
 			createNodeIdPlugin(),
 			createDndPlugin(),
-			// createAutoformatPlugin(optionsAutoformat),
+			createAutoformatPlugin(optionsAutoformat),
 			createResetNodePlugin(optionsResetBlockTypePlugin),
 			createSoftBreakPlugin(optionsSoftBreakPlugin),
 			createExitBreakPlugin(optionsExitBreakPlugin),

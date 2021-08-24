@@ -13,6 +13,7 @@
 		"@udecode/plate": "^2.0.1",
 		"@udecode/plate-test-utils": "^1.0.0",
 		"antd": "^4.16.12",
+		"antd-img-crop": "^3.14.3",
 		"next": "11.1.0",
 		"prismjs": "^1.24.1",
 		"react": "17.0.2",
@@ -23,7 +24,8 @@
 		"slate-history": "^0.65.3",
 		"slate-hyperscript": "^0.62.0",
 		"slate-react": "^0.65.3",
-		"slate-sidebar": "^1.5.0"
+		"slate-sidebar": "^1.5.0",
+		"unsplash-js": "^7.0.15"
 	},
 	"devDependencies": {
 		"@types/prismjs": "^1.16.6",

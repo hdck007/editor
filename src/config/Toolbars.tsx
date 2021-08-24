@@ -1,8 +1,10 @@
 import 'tippy.js/animations/scale.css';
 import 'tippy.js/dist/tippy.css';
+import { Modal } from 'antd';
 import React from 'react';
 import { TippyProps } from '@tippyjs/react';
 import {
+	ToolbarButton,
 	addColumn,
 	addRow,
 	BalloonToolbar,
@@ -78,6 +80,8 @@ import {
 	MdLooksTwo,
 	MdFontDownload,
 } from 'react-icons/md';
+import { useState } from 'react';
+import ImageUploadAndSearch from './ImageButton';
 
 export const ToolbarButtonsBasicElements = () => {
 	const editor = useStoreEditorRef(useEventEditorId('focus'));
@@ -261,16 +265,68 @@ export const BallonToolbarMarks = () => {
 	);
 };
 
-export const ToolbarButtons = () => (
-	<>
-		<ToolbarButtonsBasicElements />
-		<ToolbarButtonsList />
-		<ToolbarButtonsBasicMarks />
-		{/* <ToolbarColorPicker pluginKey={MARK_COLOR} icon={<BiFontColor />} />
+export const ToolbarButtons = () => {
+	const [data, setPhotosResponse] = useState({
+		response: {
+			results: [],
+		},
+	});
+	const [visible, setVisible] = useState(false);
+
+	function handleOk() {
+		console.log('Ok');
+		setVisible(false);
+		setPhotosResponse({
+			response: {
+				results: [],
+			},
+		});
+	}
+
+	function handleCancel() {
+		console.log('Cancel');
+		setVisible(false);
+		setPhotosResponse({
+			response: {
+				results: [],
+			},
+		});
+	}
+
+	return (
+		<>
+			<Modal
+				title='Basic Modal'
+				visible={visible}
+				onOk={handleOk}
+				onCancel={handleCancel}
+				style={{ top: 20 }}
+				width={800}
+			>
+				<ImageUploadAndSearch
+					data={data}
+					setPhotosResponse={setPhotosResponse}
+				/>
+			</Modal>
+			<ToolbarButtonsBasicElements />
+			<ToolbarButtonsList />
+			<ToolbarButtonsBasicMarks />
+			{/* <ToolbarColorPicker pluginKey={MARK_COLOR} icon={<BiFontColor />} />
 		<ToolbarColorPicker pluginKey={MARK_BG_COLOR} icon={<MdFontDownload />} /> */}
-		<ToolbarButtonsAlign />
-		<ToolbarLink icon={<FiLink />} />
-		<ToolbarImage icon={<BsImage />} />
-		<ToolbarButtonsTable />
-	</>
-);
+			<ToolbarButtonsAlign />
+			<ToolbarLink
+				getLinkUrl={(prevUrl) =>
+					new Promise((resolve, reject) => {
+						if (prevUrl) {
+							resolve('');
+						}
+						resolve('Foo');
+					})
+				}
+				icon={<FiLink />}
+			/>
+			<ToolbarButton onMouseDown={() => setVisible(true)} icon={<BsImage />} />
+			<ToolbarButtonsTable />
+		</>
+	);
+};
