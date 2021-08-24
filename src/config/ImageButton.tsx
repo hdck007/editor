@@ -48,7 +48,7 @@ const ImageUpload = () => {
 			reader.onload = (event: any) => {
 				resolve(event.target.result);
 			};
-			reader.readAsArrayBuffer(file);
+			reader.readAsDataURL(file);
 		});
 
 	const props = {
@@ -58,7 +58,7 @@ const ImageUpload = () => {
 			if (file.type !== 'image/png' && file.type !== 'image/jpeg') {
 				message.error(`${file.name} is not a recognised image file`);
 			}
-			fileToBuffer(file).then((file: any) => console.log(file));
+			fileToBuffer(file).then((file: any) => insertImage(editor, file));
 			return false;
 		},
 		onChange(info: any) {
