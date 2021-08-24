@@ -8,6 +8,8 @@ import { InboxOutlined } from '@ant-design/icons';
 import { SetStateAction } from 'react';
 import { any } from 'prop-types';
 import { useEffect } from 'react';
+import { useEditor } from 'slate-react';
+import { insertImage, useEditorRef } from '@udecode/plate';
 
 const { Dragger } = Upload;
 
@@ -32,6 +34,23 @@ type Photo = {
 };
 
 const ImageUpload = () => {
+	const editor = useEditorRef();
+
+	// console.log(editor);
+	// insertImage(
+	// 	editor,
+	// 	'https://via.placeholder.com/300.png/09f/fff%20C/O%20https://placeholder.com/'
+	// );
+
+	const fileToBuffer = (file: any) =>
+		new Promise((resolve, reject) => {
+			const reader = new FileReader();
+			reader.onload = (event: any) => {
+				resolve(event.target.result);
+			};
+			reader.readAsArrayBuffer(file);
+		});
+
 	const props = {
 		name: 'file',
 		multiple: false,
@@ -39,9 +58,8 @@ const ImageUpload = () => {
 			if (file.type !== 'image/png' && file.type !== 'image/jpeg') {
 				message.error(`${file.name} is not a recognised image file`);
 			}
-			return file.type === 'image/png' || file.type === 'image/jpeg'
-				? true
-				: Upload.LIST_IGNORE;
+			fileToBuffer(file).then((file: any) => console.log(file));
+			return false;
 		},
 		onChange(info: any) {
 			const { status } = info.file;
@@ -50,6 +68,7 @@ const ImageUpload = () => {
 			}
 			if (status === 'done') {
 				message.success(`${info.file.name} file uploaded successfully.`);
+				// info.file.arrayBuffer().then((buffer: any) => console.log(buffer));
 			} else if (status === 'error') {
 				message.error(`${info.file.name} file upload failed.`);
 			}
@@ -71,17 +90,31 @@ const ImageUpload = () => {
 	);
 };
 
-const PhotoComp: React.FC<{ photo: Photo }> = ({ photo }) => {
+const PhotoComp: React.FC<{ photo: Photo; handleOk: Function }> = ({
+	photo,
+	handleOk,
+}) => {
 	const { user, urls } = photo;
+	const editor = useEditorRef();
+
+	function handleClick() {
+		insertImage(editor, urls.regular);
+		handleOk();
+	}
 
 	return (
 		<>
-			<Image preview={false} className='img' src={urls.regular} />
+			<Image
+				preview={false}
+				className='img'
+				src={urls.regular}
+				onClick={handleClick}
+			/>
 		</>
 	);
 };
 
-const ImageUploadAndSearch = ({ data, setPhotosResponse }: any) => {
+const ImageUploadAndSearch = ({ data, setPhotosResponse, handleOk }: any) => {
 	function onSearch(props: any) {
 		console.log(props);
 		api.search
@@ -104,7 +137,7 @@ const ImageUploadAndSearch = ({ data, setPhotosResponse }: any) => {
 				<ul>
 					{data.response.results.map((photo: Photo) => (
 						<li key={photo.id} className='li'>
-							<PhotoComp photo={photo} />
+							<PhotoComp photo={photo} handleOk={handleOk} />
 						</li>
 					))}
 				</ul>

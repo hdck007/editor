@@ -306,6 +306,7 @@ export const ToolbarButtons = () => {
 				<ImageUploadAndSearch
 					data={data}
 					setPhotosResponse={setPhotosResponse}
+					handleOk={handleOk}
 				/>
 			</Modal>
 			<ToolbarButtonsBasicElements />
