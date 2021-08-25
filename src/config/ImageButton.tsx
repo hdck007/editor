@@ -9,7 +9,12 @@ import { SetStateAction } from 'react';
 import { any } from 'prop-types';
 import { useEffect } from 'react';
 import { useEditor } from 'slate-react';
-import { insertImage, useEditorRef } from '@udecode/plate';
+import {
+	ELEMENT_MEDIA_EMBED,
+	insertImage,
+	insertMediaEmbed,
+	useEditorRef,
+} from '@udecode/plate';
 
 const { Dragger } = Upload;
 
@@ -36,6 +41,10 @@ type Photo = {
 const ImageUpload: React.FC<{ handleOk: Function }> = ({ handleOk }) => {
 	const editor = useEditorRef();
 
+	// insertMediaEmbed(editor, {
+	// 	url: 'https://www.youtube.com/embed/esXs3QAbqfA',
+	// 	pluginKey: ELEMENT_MEDIA_EMBED,
+	// });
 	// console.log(editor);
 	// insertImage(
 	// 	editor,
@@ -119,7 +128,7 @@ const ImageUploadAndSearch = ({ data, setPhotosResponse, handleOk }: any) => {
 	function onSearch(props: any) {
 		console.log(props);
 		api.search
-			.getPhotos({ query: props, orientation: 'landscape' })
+			.getPhotos({ query: props })
 			.then((result: any) => {
 				setPhotosResponse(result);
 			})

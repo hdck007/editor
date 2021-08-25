@@ -55,7 +55,10 @@ import {
 	createDeserializeMDPlugin,
 	createDeserializeCSVPlugin,
 	createDeserializeAstPlugin,
+	getEditableRenderLeaf,
+	ImageElement,
 } from '@udecode/plate';
+import { MARK_ITALIC } from '@udecode/plate-basic-marks';
 // import { initialValuePlayground } from './config/initialValues';
 import {
 	editableProps,
@@ -73,14 +76,59 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { HistoryEditor } from 'slate-history';
 import { ReactEditor } from 'slate-react';
+import { Editor } from 'slate';
 
 type TEditor = SPEditor & ReactEditor & HistoryEditor;
 
 const id = 'Examples/Prototype';
 
+export const createElement = (
+	text = '',
+	{
+		type = ELEMENT_PARAGRAPH,
+		mark,
+	}: {
+		type?: string;
+		mark?: string;
+	} = {}
+) => {
+	const leaf: any = { text };
+	if (mark) {
+		leaf[mark] = true;
+	}
+
+	return {
+		type,
+		children: [leaf],
+	};
+};
+
+const component = getEditableRenderLeaf({
+	type: 'text',
+});
+
+// console.log(component());
+
 let components = createPlateComponents({
 	[ELEMENT_MENTION]: withProps(MentionElement, {
 		renderLabel: renderMentionLabel,
+	}),
+	[ELEMENT_IMAGE]: withProps(ImageElement, {
+		nodeProps: {
+			alt: 'image',
+		},
+		styles: {
+			root: {
+				textAlign: 'center',
+				height: '40rem !important',
+			},
+			img: {
+				width: '100%',
+				margin: 'auto',
+				maxHeight: '38rem !important',
+			},
+		},
+		// children: <component />,
 	}),
 	// [ELEMENT_EXCALIDRAW]: ExcalidrawElement,
 	[MARK_COLOR]: withStyledProps(StyledLeaf, {
@@ -163,7 +211,7 @@ const Plugins = () => {
 	}, [mentionPlugin, searchHighlightPlugin]);
 
 	return (
-		<div className='container-editor mx-auto my-9 w-5/6 h-5/6 md:w-6/6 pb-4 overflow-y-auto relative overflow-x-hidden'>
+		<div className='container-editor mx-auto my-9 w-1/2 min-h-5/6 md:w-6/6 pb-4 overflow-y-auto relative overflow-x-hidden'>
 			<DndProvider backend={HTML5Backend}>
 				<Plate
 					id={id}
@@ -175,13 +223,12 @@ const Plugins = () => {
 				>
 					<div className='sticky top-0 z-10 bg-white'>
 						<HeadingToolbar>
-							<div className='w-full bg-gray-200 rounded-lg px-1 flex items-center flex-wrap py-3'>
+							<div className='w-full bg-gray-200 rounded-lg flex items-center flex-wrap py-3'>
 								<ToolbarButtons />
 							</div>
 						</HeadingToolbar>
 					</div>
 					<BallonToolbarMarks />
-
 					<MentionSelect
 						{...getMentionSelectProps()}
 						renderLabel={renderMentionLabel}

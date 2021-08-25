@@ -1,6 +1,7 @@
 import 'tippy.js/animations/scale.css';
 import 'tippy.js/dist/tippy.css';
 import { Modal } from 'antd';
+import EmbedButton from './InsertMediaButton';
 import React from 'react';
 import { TippyProps } from '@tippyjs/react';
 import {
@@ -48,6 +49,7 @@ import {
 	MARK_COLOR,
 	MARK_BG_COLOR,
 	ToolbarColorPicker,
+	useEditorRef,
 } from '@udecode/plate';
 import { BsCodeSlash, BsImage } from 'react-icons/bs';
 import {
@@ -273,6 +275,8 @@ export const ToolbarButtons = () => {
 	});
 	const [visible, setVisible] = useState(false);
 
+	const editor = useEditorRef();
+
 	function handleOk() {
 		console.log('Ok');
 		setVisible(false);
@@ -318,6 +322,7 @@ export const ToolbarButtons = () => {
 			<ToolbarLink icon={<FiLink />} />
 			<ToolbarButton onMouseDown={() => setVisible(true)} icon={<BsImage />} />
 			<ToolbarButtonsTable />
+			<EmbedButton editor={editor} />
 		</>
 	);
 };

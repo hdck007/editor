@@ -5,8 +5,7 @@ export default function EditorLayout({ children }: any) {
 		<div
 			style={{
 				width: '100vw',
-				height: '94vh',
-				overflow: 'hidden',
+				// height: '94vh',
 			}}
 		>
 			<header
