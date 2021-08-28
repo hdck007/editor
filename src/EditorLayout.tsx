@@ -5,7 +5,7 @@ export default function EditorLayout({ children }: any) {
 		<div
 			style={{
 				width: '100vw',
-				// height: '94vh',
+				position: 'relative',
 			}}
 		>
 			<header
@@ -14,8 +14,14 @@ export default function EditorLayout({ children }: any) {
 					background: '#008080',
 				}}
 			></header>
-			{children}
-			<footer className='h-14 absolute bottom-0'></footer>
+			<div
+				style={{
+					minHeight: '80vh',
+				}}
+			>
+				{children}
+			</div>
+			<footer className='h-14 bg-black absolute bottom-0 z-10'></footer>
 		</div>
 	);
 }

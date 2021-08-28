@@ -57,6 +57,8 @@ import {
 	createDeserializeAstPlugin,
 	getEditableRenderLeaf,
 	ImageElement,
+	ELEMENT_MEDIA_EMBED,
+	MediaEmbedElement,
 } from '@udecode/plate';
 import { MARK_ITALIC } from '@udecode/plate-basic-marks';
 // import { initialValuePlayground } from './config/initialValues';
@@ -103,10 +105,6 @@ export const createElement = (
 	};
 };
 
-const component = getEditableRenderLeaf({
-	type: 'text',
-});
-
 // console.log(component());
 
 let components = createPlateComponents({
@@ -120,15 +118,20 @@ let components = createPlateComponents({
 		styles: {
 			root: {
 				textAlign: 'center',
-				height: '40rem !important',
+				maxHeight: '40rem !important',
 			},
 			img: {
 				width: '100%',
-				margin: 'auto',
-				maxHeight: '38rem !important',
+				maxHeight: '40rem !important',
 			},
 		},
-		// children: <component />,
+	}),
+	[ELEMENT_MEDIA_EMBED]: withProps(MediaEmbedElement, {
+		styles: {
+			input: {
+				display: 'none',
+			},
+		},
 	}),
 	// [ELEMENT_EXCALIDRAW]: ExcalidrawElement,
 	[MARK_COLOR]: withStyledProps(StyledLeaf, {
@@ -211,7 +214,7 @@ const Plugins = () => {
 	}, [mentionPlugin, searchHighlightPlugin]);
 
 	return (
-		<div className='container-editor mx-auto my-9 w-1/2 min-h-5/6 md:w-6/6 pb-4 overflow-y-auto relative overflow-x-hidden'>
+		<div className='mx-auto my-9 w-1/2 h-5/6 md:w-6/6 pb-4 overflow-y-auto overflow-x-hidden'>
 			<DndProvider backend={HTML5Backend}>
 				<Plate
 					id={id}
@@ -221,7 +224,7 @@ const Plugins = () => {
 					editableProps={editableProps}
 					// initialValue={initialValuePlayground}
 				>
-					<div className='sticky top-0 z-10 bg-white'>
+					<div className='bg-white sticky top-0'>
 						<HeadingToolbar>
 							<div className='w-full bg-gray-200 rounded-lg flex items-center flex-wrap py-3'>
 								<ToolbarButtons />

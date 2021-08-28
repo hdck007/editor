@@ -98,10 +98,10 @@ export const ToolbarButtonsBasicElements = () => {
 				type={getPlatePluginType(editor, ELEMENT_H2)}
 				icon={<MdLooksTwo />}
 			/>
-			<ToolbarElement
+			{/* <ToolbarElement
 				type={getPlatePluginType(editor, ELEMENT_H3)}
 				icon={<MdLooks3 />}
-			/>
+			/> */}
 			<ToolbarElement
 				type={getPlatePluginType(editor, ELEMENT_BLOCKQUOTE)}
 				icon={<FaQuoteRight />}
@@ -170,23 +170,13 @@ export const ToolbarButtonsBasicMarks = () => {
 				type={getPlatePluginType(editor, MARK_UNDERLINE)}
 				icon={<FaUnderline />}
 			/>
-			<ToolbarMark
+			{/* <ToolbarMark
 				type={getPlatePluginType(editor, MARK_STRIKETHROUGH)}
 				icon={<AiOutlineStrikethrough />}
-			/>
+			/> */}
 			<ToolbarMark
 				type={getPlatePluginType(editor, MARK_CODE)}
 				icon={<BsCodeSlash />}
-			/>
-			<ToolbarMark
-				type={getPlatePluginType(editor, MARK_SUPERSCRIPT)}
-				clear={getPlatePluginType(editor, MARK_SUBSCRIPT)}
-				icon={<ImSuperscript />}
-			/>
-			<ToolbarMark
-				type={getPlatePluginType(editor, MARK_SUBSCRIPT)}
-				clear={getPlatePluginType(editor, MARK_SUPERSCRIPT)}
-				icon={<ImSubscript />}
 			/>
 		</>
 	);
@@ -268,60 +258,20 @@ export const BallonToolbarMarks = () => {
 };
 
 export const ToolbarButtons = () => {
-	const [data, setPhotosResponse] = useState({
-		response: {
-			results: [],
-		},
-	});
-	const [visible, setVisible] = useState(false);
-
 	const editor = useEditorRef();
-
-	function handleOk() {
-		console.log('Ok');
-		setVisible(false);
-		setPhotosResponse({
-			response: {
-				results: [],
-			},
-		});
-	}
-
-	function handleCancel() {
-		console.log('Cancel');
-		setVisible(false);
-		setPhotosResponse({
-			response: {
-				results: [],
-			},
-		});
-	}
 
 	return (
 		<>
-			<Modal
-				title='Basic Modal'
-				visible={visible}
-				onOk={handleOk}
-				onCancel={handleCancel}
-				style={{ top: 20 }}
-				width={800}
-			>
-				<ImageUploadAndSearch
-					data={data}
-					setPhotosResponse={setPhotosResponse}
-					handleOk={handleOk}
-				/>
-			</Modal>
 			<ToolbarButtonsBasicElements />
 			<ToolbarButtonsList />
 			<ToolbarButtonsBasicMarks />
 			{/* <ToolbarColorPicker pluginKey={MARK_COLOR} icon={<BiFontColor />} />
 		<ToolbarColorPicker pluginKey={MARK_BG_COLOR} icon={<MdFontDownload />} /> */}
-			<ToolbarButtonsAlign />
+			{/* <ToolbarButtonsAlign /> */}
 			<ToolbarLink icon={<FiLink />} />
-			<ToolbarButton onMouseDown={() => setVisible(true)} icon={<BsImage />} />
-			<ToolbarButtonsTable />
+			<ImageUploadAndSearch editor={editor} />
+			{/* <ToolbarButton onMouseDown={() => setVisible(true)} icon={<BsImage />} /> */}
+			{/* <ToolbarButtonsTable /> */}
 			<EmbedButton editor={editor} />
 		</>
 	);

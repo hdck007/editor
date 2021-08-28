@@ -5,38 +5,93 @@ import { useState } from 'react';
 import { useEditorRef } from '@udecode/plate-core';
 import { insertMediaEmbed } from '@udecode/plate-media-embed';
 import { ELEMENT_MEDIA_EMBED } from '@udecode/plate-media-embed';
-import { ToolbarButton } from '@udecode/plate';
+import {
+	ELEMENT_PARAGRAPH,
+	getKbdDeserialize,
+	getLastChild,
+	getLastChildPath,
+	getPlateState,
+	getPreviousPath,
+	insertNodes,
+	ToolbarButton,
+} from '@udecode/plate';
 import { BiVideo } from 'react-icons/bi';
+import { useEditor } from 'slate-react';
 
 const EmbedButton = ({ editor }) => {
 	const [url, setUrl] = useState('');
 	const [visible, setVisible] = useState(false);
+	const [location, setLocation] = useState(null);
 
+	React.useEffect(() => {
+		setLocation(editor.selection);
+	}, [visible]);
 	// const editor = useEditorRef();
+	console.log(getPlateState(editor));
+	console.log(getKbdDeserialize());
+	// console.log(getLastChildPath());
 
 	function handleSubmit(e) {
 		let theUrl = url;
+		console.log(location);
 		if (theUrl.indexOf('youtube') >= 0 || theUrl.indexOf('youtu.be') >= 0) {
 			if (theUrl.indexOf('=') >= 0) {
-				insertMediaEmbed(editor, {
-					url: `https://www.youtube.com/embed/${theUrl.split('=')[1]}`,
-					pluginKey: ELEMENT_MEDIA_EMBED,
-				});
+				insertNodes(
+					editor,
+					[
+						{
+							isInline: true,
+							type: ELEMENT_MEDIA_EMBED,
+							url: `https://www.youtube.com/embed/${theUrl.split('=')[1]}`,
+							children: [{ text: '' }],
+						},
+						{
+							text: '',
+						},
+					],
+					{
+						at: location ? location.anchor : [0, 0],
+					}
+				);
 			} else {
-				insertMediaEmbed(editor, {
-					url: `https://www.youtube.com/embed/${
-						theUrl.split('/')[theUrl.split('/').length - 1]
-					}`,
-					pluginKey: ELEMENT_MEDIA_EMBED,
-				});
+				insertNodes(
+					editor,
+					[
+						{
+							type: ELEMENT_MEDIA_EMBED,
+							url: `https://www.youtube.com/embed/${
+								theUrl.split('/')[theUrl.split('/').length - 1]
+							}`,
+							children: [{ text: '' }],
+						},
+						{
+							text: '',
+						},
+					],
+					{
+						at: location ? location.anchor : [0, 0],
+					}
+				);
 			}
 		} else if (theUrl.indexOf('vimeo') >= 0) {
-			insertMediaEmbed(editor, {
-				url: `https://player.vimeo.com/video/${
-					theUrl.split('/')[theUrl.split('/').length - 1]
-				}`,
-				pluginKey: ELEMENT_MEDIA_EMBED,
-			});
+			insertNodes(
+				editor,
+				[
+					{
+						type: ELEMENT_MEDIA_EMBED,
+						url: `https://player.vimeo.com/video/${
+							theUrl.split('/')[theUrl.split('/').length - 1]
+						}`,
+						children: [{ text: '' }],
+					},
+					{
+						text: '',
+					},
+				],
+				{
+					at: location ? location.anchor : [0, 0],
+				}
+			);
 		}
 		setVisible(false);
 	}
@@ -51,7 +106,7 @@ const EmbedButton = ({ editor }) => {
 			<Modal
 				title='Basic Modal'
 				visible={visible}
-				onOk={handleSubmit}
+				onOk={(e) => handleSubmit(e)}
 				onCancel={handleCancel}
 				style={{ top: 20 }}
 				width={800}
@@ -60,7 +115,6 @@ const EmbedButton = ({ editor }) => {
 					onChange={(e) => setUrl(e.target.value)}
 					placeholder='paste the url here'
 				/>
-				<Button onClick={handleSubmit}>Embed</Button>
 			</Modal>
 		</>
 	);

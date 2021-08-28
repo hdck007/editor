@@ -9,10 +9,18 @@ import { SetStateAction } from 'react';
 import { any } from 'prop-types';
 import { useEffect } from 'react';
 import { useEditor } from 'slate-react';
+import { Modal } from 'antd';
+import { BsImage } from 'react-icons/bs';
 import {
+	ELEMENT_ALIGN_CENTER,
+	ELEMENT_IMAGE,
 	ELEMENT_MEDIA_EMBED,
+	ELEMENT_PARAGRAPH,
 	insertImage,
 	insertMediaEmbed,
+	insertNodes,
+	isEnd,
+	ToolbarButton,
 	useEditorRef,
 } from '@udecode/plate';
 
@@ -38,18 +46,13 @@ type Photo = {
 	};
 };
 
-const ImageUpload: React.FC<{ handleOk: Function }> = ({ handleOk }) => {
+const ImageUpload: React.FC<{ handleOk: Function; location: any }> = ({
+	handleOk,
+	location,
+}) => {
 	const editor = useEditorRef();
 
-	// insertMediaEmbed(editor, {
-	// 	url: 'https://www.youtube.com/embed/esXs3QAbqfA',
-	// 	pluginKey: ELEMENT_MEDIA_EMBED,
-	// });
-	// console.log(editor);
-	// insertImage(
-	// 	editor,
-	// 	'https://via.placeholder.com/300.png/09f/fff%20C/O%20https://placeholder.com/'
-	// );
+	console.log(location);
 
 	const fileToBuffer = (file: any) =>
 		new Promise((resolve, reject) => {
@@ -67,7 +70,35 @@ const ImageUpload: React.FC<{ handleOk: Function }> = ({ handleOk }) => {
 			if (file.type !== 'image/png' && file.type !== 'image/jpeg') {
 				message.error(`${file.name} is not a recognised image file`);
 			}
-			fileToBuffer(file).then((file: any) => insertImage(editor, file));
+			fileToBuffer(file).then((file: any) => {
+				insertNodes(
+					editor,
+					[
+						{
+							type: ELEMENT_IMAGE,
+							url: file,
+							children: [
+								{
+									text: 'Caption',
+								},
+							],
+						},
+						{
+							type: ELEMENT_ALIGN_CENTER,
+							children: [
+								{
+									text: 'Enter the caption... press ctrl+enter to escape',
+									isVoid: true,
+								},
+							],
+						},
+					],
+					{
+						at: location ? location.anchor : [0, 0],
+					}
+				);
+				// insertImage(editor, file));
+			});
 			return false;
 		},
 		onChange(info: any) {
@@ -100,31 +131,86 @@ const ImageUpload: React.FC<{ handleOk: Function }> = ({ handleOk }) => {
 	);
 };
 
-const PhotoComp: React.FC<{ photo: Photo; handleOk: Function }> = ({
-	photo,
-	handleOk,
-}) => {
-	const { user, urls } = photo;
-	const editor = useEditorRef();
+const PhotoComp: React.FC<{ photo: Photo; handleOk: Function; location: any }> =
+	({ photo, handleOk, location }) => {
+		const { user, urls } = photo;
+		const editor = useEditorRef();
 
-	function handleClick() {
-		insertImage(editor, urls.regular);
-		handleOk();
+		function handleClick() {
+			insertNodes(
+				editor,
+				[
+					{
+						type: ELEMENT_IMAGE,
+						url: urls.regular,
+						children: [
+							{
+								text: 'Caption',
+							},
+						],
+					},
+					{
+						type: ELEMENT_ALIGN_CENTER,
+						children: [
+							{
+								text: 'Hello',
+							},
+						],
+					},
+				],
+				{
+					at: location ? location.anchor : [0, 0],
+				}
+			);
+			// insertImage(editor, urls.regular);
+			handleOk();
+		}
+
+		return (
+			<>
+				<Image
+					preview={false}
+					className='img'
+					src={urls.regular}
+					onClick={handleClick}
+				/>
+			</>
+		);
+	};
+
+const ImageUploadAndSearch = ({ editor }: any) => {
+	const [data, setPhotosResponse] = useState({
+		response: {
+			results: [],
+		},
+	});
+	const [visible, setVisible] = useState(false);
+	const [location, setLocation] = useState(null);
+
+	useEffect(() => {
+		setLocation(editor.selection);
+	}, [visible]);
+
+	function handleOk() {
+		console.log('Ok');
+		setVisible(false);
+		setPhotosResponse({
+			response: {
+				results: [],
+			},
+		});
 	}
 
-	return (
-		<>
-			<Image
-				preview={false}
-				className='img'
-				src={urls.regular}
-				onClick={handleClick}
-			/>
-		</>
-	);
-};
+	function handleCancel() {
+		console.log('Cancel');
+		setVisible(false);
+		setPhotosResponse({
+			response: {
+				results: [],
+			},
+		});
+	}
 
-const ImageUploadAndSearch = ({ data, setPhotosResponse, handleOk }: any) => {
 	function onSearch(props: any) {
 		console.log(props);
 		api.search
@@ -140,22 +226,36 @@ const ImageUploadAndSearch = ({ data, setPhotosResponse, handleOk }: any) => {
 
 	return (
 		<>
-			<ImageUpload handleOk={handleOk} />
-			<h3 className='py-2'>Or</h3>
-			<Search
-				placeholder='input search text'
-				onSearch={onSearch}
-				allowClear={true}
-			/>
-			<div className='overflow-y-auto h-72'>
-				<ul>
-					{data.response.results.map((photo: Photo) => (
-						<li key={photo.id} className='li'>
-							<PhotoComp photo={photo} handleOk={handleOk} />
-						</li>
-					))}
-				</ul>
-			</div>
+			<ToolbarButton onMouseDown={() => setVisible(true)} icon={<BsImage />} />
+			<Modal
+				title='Basic Modal'
+				visible={visible}
+				onOk={handleOk}
+				onCancel={handleCancel}
+				style={{ top: 20 }}
+				width={800}
+			>
+				<ImageUpload handleOk={handleOk} location={location} />
+				<h3 className='py-2'>Or</h3>
+				<Search
+					placeholder='input search text'
+					onSearch={onSearch}
+					allowClear={true}
+				/>
+				<div className='overflow-y-auto h-72'>
+					<ul>
+						{data.response.results.map((photo: Photo) => (
+							<li key={photo.id} className='li'>
+								<PhotoComp
+									photo={photo}
+									handleOk={handleOk}
+									location={location}
+								/>
+							</li>
+						))}
+					</ul>
+				</div>
+			</Modal>
 		</>
 	);
 };
