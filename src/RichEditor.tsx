@@ -59,6 +59,7 @@ import {
 	ImageElement,
 	ELEMENT_MEDIA_EMBED,
 	MediaEmbedElement,
+	StyledElement,
 } from '@udecode/plate';
 import { MARK_ITALIC } from '@udecode/plate-basic-marks';
 // import { initialValuePlayground } from './config/initialValues';
@@ -111,6 +112,11 @@ let components = createPlateComponents({
 	[ELEMENT_MENTION]: withProps(MentionElement, {
 		renderLabel: renderMentionLabel,
 	}),
+
+	['hr_line']: withProps(StyledElement, {
+		as: 'hr',
+	}),
+
 	[ELEMENT_IMAGE]: withProps(ImageElement, {
 		nodeProps: {
 			alt: 'image',

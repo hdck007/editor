@@ -23,8 +23,14 @@ const EmbedButton = ({ editor }) => {
 	const [visible, setVisible] = useState(false);
 	const [location, setLocation] = useState(null);
 
+	console.log(editor);
+
 	React.useEffect(() => {
 		setLocation(editor.selection);
+		// insertNodes(editor, {
+		// 	type: 'hr_line',
+		// 	children: [{ text: 'LEts weite lkasd' }],
+		// });
 	}, [visible]);
 	// const editor = useEditorRef();
 	console.log(getPlateState(editor));
