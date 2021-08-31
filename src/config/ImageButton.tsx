@@ -52,8 +52,6 @@ const ImageUpload: React.FC<{ handleOk: Function; location: any }> = ({
 }) => {
 	const editor = useEditorRef();
 
-	console.log(location);
-
 	const fileToBuffer = (file: any) =>
 		new Promise((resolve, reject) => {
 			const reader = new FileReader();
@@ -103,9 +101,6 @@ const ImageUpload: React.FC<{ handleOk: Function; location: any }> = ({
 		},
 		onChange(info: any) {
 			const { status } = info.file;
-			if (status !== 'uploading') {
-				console.log(info.file, info.fileList);
-			}
 			if (status === 'done') {
 				message.success(`${info.file.name} file uploaded successfully.`);
 				// info.file.arrayBuffer().then((buffer: any) => console.log(buffer));
@@ -113,9 +108,6 @@ const ImageUpload: React.FC<{ handleOk: Function; location: any }> = ({
 				message.error(`${info.file.name} file upload failed.`);
 			}
 			handleOk();
-		},
-		onDrop(e: any) {
-			console.log('Dropped files', e.dataTransfer.files);
 		},
 	};
 
@@ -137,6 +129,7 @@ const PhotoComp: React.FC<{ photo: Photo; handleOk: Function; location: any }> =
 		const editor = useEditorRef();
 
 		function handleClick() {
+			// Inserts a node with image and paragraph as child
 			insertNodes(
 				editor,
 				[
@@ -162,7 +155,6 @@ const PhotoComp: React.FC<{ photo: Photo; handleOk: Function; location: any }> =
 					at: location ? location.anchor : [0, 0],
 				}
 			);
-			// insertImage(editor, urls.regular);
 			handleOk();
 		}
 
@@ -192,7 +184,6 @@ const ImageUploadAndSearch = ({ editor }: any) => {
 	}, [visible]);
 
 	function handleOk() {
-		console.log('Ok');
 		setVisible(false);
 		setPhotosResponse({
 			response: {
@@ -202,7 +193,6 @@ const ImageUploadAndSearch = ({ editor }: any) => {
 	}
 
 	function handleCancel() {
-		console.log('Cancel');
 		setVisible(false);
 		setPhotosResponse({
 			response: {
@@ -212,7 +202,6 @@ const ImageUploadAndSearch = ({ editor }: any) => {
 	}
 
 	function onSearch(props: any) {
-		console.log(props);
 		api.search
 			.getPhotos({ query: props })
 			.then((result: any) => {
@@ -221,7 +210,6 @@ const ImageUploadAndSearch = ({ editor }: any) => {
 			.catch(() => {
 				console.log('something went wrong!');
 			});
-		console.log('Searched');
 	}
 
 	return (

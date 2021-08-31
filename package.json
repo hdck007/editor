@@ -14,6 +14,7 @@
 		"@udecode/plate-test-utils": "^1.0.0",
 		"antd": "^4.16.12",
 		"antd-img-crop": "^3.14.3",
+		"emoji-picker-element": "^1.8.0",
 		"next": "11.1.0",
 		"prismjs": "^1.24.1",
 		"react": "17.0.2",

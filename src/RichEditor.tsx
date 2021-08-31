@@ -80,6 +80,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { HistoryEditor } from 'slate-history';
 import { ReactEditor } from 'slate-react';
 import { Editor } from 'slate';
+import { createBasicPlugin } from './config/pluginOptions';
 
 type TEditor = SPEditor & ReactEditor & HistoryEditor;
 
@@ -111,6 +112,13 @@ export const createElement = (
 let components = createPlateComponents({
 	[ELEMENT_MENTION]: withProps(MentionElement, {
 		renderLabel: renderMentionLabel,
+	}),
+	['BASIC_PLUGIN']: withProps(StyledElement, {
+		styles: {
+			root: {
+				background: 'red !important',
+			},
+		},
 	}),
 
 	['hr_line']: withProps(StyledElement, {
@@ -203,6 +211,7 @@ const Plugins = () => {
 			createSelectOnBackspacePlugin({
 				allow: [ELEMENT_IMAGE],
 			}),
+			// createBasicPlugin(),
 			mentionPlugin,
 			searchHighlightPlugin,
 		];
@@ -220,7 +229,7 @@ const Plugins = () => {
 	}, [mentionPlugin, searchHighlightPlugin]);
 
 	return (
-		<div className='mx-auto my-9 w-1/2 h-5/6 md:w-6/6 pb-4 overflow-y-auto overflow-x-hidden'>
+		<div className='mx-auto my-9 w-1/2 h-5/6 md:w-6/6 pb-4'>
 			<DndProvider backend={HTML5Backend}>
 				<Plate
 					id={id}

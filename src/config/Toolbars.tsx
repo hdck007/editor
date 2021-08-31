@@ -84,6 +84,7 @@ import {
 } from 'react-icons/md';
 import { useState } from 'react';
 import ImageUploadAndSearch from './ImageButton';
+import EmojiButton from './EmojiPanel';
 
 export const ToolbarButtonsBasicElements = () => {
 	const editor = useStoreEditorRef(useEventEditorId('focus'));
@@ -273,6 +274,7 @@ export const ToolbarButtons = () => {
 			{/* <ToolbarButton onMouseDown={() => setVisible(true)} icon={<BsImage />} /> */}
 			{/* <ToolbarButtonsTable /> */}
 			<EmbedButton editor={editor} />
+			<EmojiButton />
 		</>
 	);
 };

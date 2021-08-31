@@ -3,7 +3,6 @@ import { Button, Input } from 'antd';
 import Modal from 'antd/lib/modal/Modal';
 import { useState } from 'react';
 import { useEditorRef } from '@udecode/plate-core';
-import { insertMediaEmbed } from '@udecode/plate-media-embed';
 import { ELEMENT_MEDIA_EMBED } from '@udecode/plate-media-embed';
 import {
 	ELEMENT_PARAGRAPH,
@@ -16,30 +15,18 @@ import {
 	ToolbarButton,
 } from '@udecode/plate';
 import { BiVideo } from 'react-icons/bi';
-import { useEditor } from 'slate-react';
 
 const EmbedButton = ({ editor }) => {
 	const [url, setUrl] = useState('');
 	const [visible, setVisible] = useState(false);
 	const [location, setLocation] = useState(null);
 
-	console.log(editor);
-
 	React.useEffect(() => {
 		setLocation(editor.selection);
-		// insertNodes(editor, {
-		// 	type: 'hr_line',
-		// 	children: [{ text: 'LEts weite lkasd' }],
-		// });
 	}, [visible]);
-	// const editor = useEditorRef();
-	console.log(getPlateState(editor));
-	console.log(getKbdDeserialize());
-	// console.log(getLastChildPath());
 
 	function handleSubmit(e) {
 		let theUrl = url;
-		console.log(location);
 		if (theUrl.indexOf('youtube') >= 0 || theUrl.indexOf('youtu.be') >= 0) {
 			if (theUrl.indexOf('=') >= 0) {
 				insertNodes(

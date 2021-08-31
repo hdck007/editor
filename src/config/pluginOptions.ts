@@ -14,11 +14,13 @@ import {
 	MentionNodeData,
 	ResetBlockTypePluginOptions,
 	SoftBreakPluginOptions,
+	PlatePlugin,
+	getRenderElement,
+	SPEditor,
 } from '@udecode/plate';
 import { MENTIONABLES } from './mentionables';
 import { autoformatRules } from './autoformat/autoformatRules';
 import { BaseEditor } from 'slate';
-import { EditableProps } from 'slate-react/dist/components/editable';
 
 export const options = createPlateOptions();
 
@@ -107,12 +109,20 @@ export const optionsAutoformat: WithAutoformatOptions = {
 	rules: autoformatRules,
 };
 
+export const createBasicPlugin = (): PlatePlugin => ({
+	pluginKeys: 'BASIC_PLUGIN',
+	onKeyDown: () =>
+		function () {
+			// console.log('hi');
+		},
+	renderElement: getRenderElement(ELEMENT_TD),
+});
+
 export const editableProps: any = {
 	placeholder: 'Enter some rich text…',
 	spellCheck: false,
 	padding: '0 30px',
 	onBlur: (editor: BaseEditor & { lastSelection: any }) => {
 		editor.lastSelection = editor.selection;
-		console.log(editor);
 	},
 };
