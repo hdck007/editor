@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { debounce } from 'lodash';
 import {
 	ELEMENT_IMAGE,
 	ELEMENT_PARAGRAPH,
@@ -60,6 +61,7 @@ import {
 	ELEMENT_MEDIA_EMBED,
 	MediaEmbedElement,
 	StyledElement,
+	getPlateState,
 } from '@udecode/plate';
 import { MARK_ITALIC } from '@udecode/plate-basic-marks';
 // import { initialValuePlayground } from './config/initialValues';
@@ -81,10 +83,15 @@ import { HistoryEditor } from 'slate-history';
 import { ReactEditor } from 'slate-react';
 import { Editor } from 'slate';
 import { createBasicPlugin } from './config/pluginOptions';
+import { useState } from 'react';
 
 type TEditor = SPEditor & ReactEditor & HistoryEditor;
 
 const id = 'Examples/Prototype';
+let data: any = null;
+if (typeof window !== 'undefined') {
+	data = localStorage.getItem('content');
+}
 
 export const createElement = (
 	text = '',
@@ -136,6 +143,7 @@ let components = createPlateComponents({
 			},
 			img: {
 				width: '100%',
+				zIndex: '1 !important',
 				maxHeight: '40rem !important',
 			},
 		},
@@ -168,10 +176,24 @@ const options = createPlateOptions({
 });
 
 const Plugins = () => {
+	// const [editorValue, setEditorValue] = useState(
+	// 	data ? JSON.parse(data) : null
+	// );
+
+	const info = [
+		{
+			type: ELEMENT_PARAGRAPH,
+			children: [
+				{
+					text: '',
+				},
+			],
+		},
+	];
+
 	const { setSearch, plugin: searchHighlightPlugin } = useFindReplacePlugin();
 	const { getMentionSelectProps, plugin: mentionPlugin } =
 		useMentionPlugin(optionsMentionPlugin);
-
 	const pluginsMemo: PlatePlugin<TEditor>[] = useMemo(() => {
 		const plugins = [
 			createReactPlugin(),
@@ -228,6 +250,24 @@ const Plugins = () => {
 		return plugins;
 	}, [mentionPlugin, searchHighlightPlugin]);
 
+	function storeInLocal() {
+		console.log('This');
+		// const content = JSON.stringify(editor);
+		// localStorage.setItem('content', content)
+	}
+
+	// function debounceWrapper(value: any) {
+	// 	let timer: any;
+	// 	return function () {
+	// 		let context = this,
+	// 			args = arguments;
+	// 		clearTimeout(timer);
+	// 		timer = setTimeout(() => {
+	// 			storeInLocal.apply(context, []);
+	// 		}, 300);
+	// 	};
+	// }
+
 	return (
 		<div className='mx-auto my-9 w-1/2 h-5/6 md:w-6/6 pb-4'>
 			<DndProvider backend={HTML5Backend}>
@@ -237,11 +277,16 @@ const Plugins = () => {
 					components={components}
 					options={options}
 					editableProps={editableProps}
-					// initialValue={initialValuePlayground}
+					onChange={(value) => {
+						// console.log(value);
+						const content = JSON.stringify(value);
+						localStorage.setItem('content', content);
+					}}
+					initialValue={data ? JSON.parse(data) : info}
 				>
-					<div className='bg-white sticky top-0'>
+					<div className='bg-white relative'>
 						<HeadingToolbar>
-							<div className='w-full bg-gray-200 rounded-lg flex items-center flex-wrap py-3'>
+							<div className='w-full absolute top-0 z-10 bg-gray-200 rounded-lg flex items-center flex-wrap py-3'>
 								<ToolbarButtons />
 							</div>
 						</HeadingToolbar>

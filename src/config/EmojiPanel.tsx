@@ -16,7 +16,7 @@ const Picker = () => {
 		ref.current.skinToneEmoji = '👍';
 	}, []);
 
-	return React.createElement('emoji-picker', { ref, class: 'light' });
+	return React.createElement('emoji-picker', { ref, class: 'light z-10' });
 };
 
 export default function EmojiButton() {
@@ -27,13 +27,13 @@ export default function EmojiButton() {
 	}
 
 	return (
-		<div className='absolute right-5'>
-			<ToolbarButton
-				className='absolute right-0'
-				icon={'😀'}
-				onMouseDown={handleClick}
-			/>
-			<div className='absolute'>{visible ? <Picker /> : null}</div>
+		<div>
+			<ToolbarButton icon={'😀'} onMouseDown={handleClick} />
+			{visible ? (
+				<div className='absolute'>
+					<Picker />
+				</div>
+			) : null}
 		</div>
 	);
 }

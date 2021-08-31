@@ -1,3 +1,4 @@
+import { any } from 'prop-types';
 import {
 	ELEMENT_BLOCKQUOTE,
 	ELEMENT_CODE_BLOCK,
@@ -118,10 +119,24 @@ export const createBasicPlugin = (): PlatePlugin => ({
 	renderElement: getRenderElement(ELEMENT_TD),
 });
 
+// export const debounce = function (fn: Function, d: number) {
+// 	let timer: any;
+// 	return function () {
+// 		let context = this,
+// 			args = arguments;
+// 		clearTimeout(timer);
+// 		timer = setTimeout(() => {
+// 			storeInLocal.apply(context, []);
+// 		}, d);
+// 	};
+// };
+
 export const editableProps: any = {
 	placeholder: 'Enter some rich text…',
 	spellCheck: false,
 	padding: '0 30px',
+	// onKeyUp: debounce(storeInLocal, 300),
+	// onKeyUp: (editor: BaseEditor) => console.log(editor),
 	onBlur: (editor: BaseEditor & { lastSelection: any }) => {
 		editor.lastSelection = editor.selection;
 	},
