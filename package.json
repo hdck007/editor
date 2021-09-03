@@ -11,6 +11,7 @@
 	"dependencies": {
 		"@ant-design/icons": "^4.6.3",
 		"@udecode/plate": "^2.0.1",
+		"@udecode/plate-break": "^3.0.3",
 		"@udecode/plate-test-utils": "^1.0.0",
 		"antd": "^4.16.12",
 		"antd-img-crop": "^3.14.3",
@@ -26,11 +27,13 @@
 		"slate-hyperscript": "^0.62.0",
 		"slate-react": "^0.65.3",
 		"slate-sidebar": "^1.5.0",
+		"styled-components": "^5.3.1",
 		"unsplash-js": "^7.0.15"
 	},
 	"devDependencies": {
 		"@types/prismjs": "^1.16.6",
 		"@types/react": "17.0.18",
+		"@types/styled-components": "^5.1.13",
 		"autoprefixer": "^10.3.1",
 		"eslint": "7.32.0",
 		"eslint-config-next": "11.1.0",

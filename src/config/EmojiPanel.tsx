@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ToolbarButton, useEditorRef } from '@udecode/plate';
+import { GrEmoji } from 'react-icons/gr';
 
 if (typeof window !== 'undefined') {
 	require('emoji-picker-element');
@@ -28,7 +29,7 @@ export default function EmojiButton() {
 
 	return (
 		<div>
-			<ToolbarButton icon={'😀'} onMouseDown={handleClick} />
+			<ToolbarButton icon={<GrEmoji />} onMouseDown={handleClick} />
 			{visible ? (
 				<div className='absolute'>
 					<Picker />

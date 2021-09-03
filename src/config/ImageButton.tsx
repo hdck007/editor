@@ -11,7 +11,9 @@ import { useEffect } from 'react';
 import { useEditor } from 'slate-react';
 import { Modal } from 'antd';
 import { BsImage } from 'react-icons/bs';
+import { plugins } from '../RichEditor';
 import {
+	deserializeHTMLToDocumentFragment,
 	ELEMENT_ALIGN_CENTER,
 	ELEMENT_IMAGE,
 	ELEMENT_MEDIA_EMBED,
@@ -75,20 +77,7 @@ const ImageUpload: React.FC<{ handleOk: Function; location: any }> = ({
 						{
 							type: ELEMENT_IMAGE,
 							url: file,
-							children: [
-								{
-									text: 'Caption',
-								},
-							],
-						},
-						{
-							type: ELEMENT_ALIGN_CENTER,
-							children: [
-								{
-									text: 'Enter the caption... press ctrl+enter to escape',
-									isVoid: true,
-								},
-							],
+							children: [],
 						},
 					],
 					{
@@ -136,19 +125,7 @@ const PhotoComp: React.FC<{ photo: Photo; handleOk: Function; location: any }> =
 					{
 						type: ELEMENT_IMAGE,
 						url: urls.regular,
-						children: [
-							{
-								text: 'Caption',
-							},
-						],
-					},
-					{
-						type: ELEMENT_ALIGN_CENTER,
-						children: [
-							{
-								text: 'Hello',
-							},
-						],
+						children: [],
 					},
 				],
 				{
@@ -182,6 +159,22 @@ const ImageUploadAndSearch = ({ editor }: any) => {
 	useEffect(() => {
 		setLocation(editor.selection);
 	}, [visible]);
+
+	// const html =
+	// 	'<blockquote class="md-block-blockquote">a block wuote</blockquote><blockquote class="md-block-blockquote">knlfsdfsdfsdf</blockquote><ul class="md-block-unordered-list-item"><li>a list item to check for the JSON</li><ul class="md-block-unordered-list-item"><li>an indented list</li><ul class="md-block-unordered-list-item"><li>a double indented list</li></ul></ul></ul><figure class="md-block-image"><img src="https://tealfeed-development.s3.ap-south-1.amazonaws.com/articles/content-images/1630427125769-175029.jpg" alt="" /><figcaption class="md-block-image-caption"></figcaption></figure><p class="md-block-unstyled">some random text to check</p><p class="md-block-unstyled"><strong class="md-inline-bold">bold </strong><em class="md-inline-italic"><strong class="md-inline-bold">italic </strong><u class="md-inline-underline"><strong class="md-inline-bold">underlined </strong>idjfd </u>lsdkjfl <strong class="md-inline-bold">dfkd</strong></em>’f</p><p class="md-block-unstyled"><a class="md-inline-link" href="https://bhupenpal.com/" target="_blank" rel="noopener nofollow">A link</a></p><hr />';
+	// const { body } = new DOMParser().parseFromString(html, 'text/html');
+
+	// console.log(body);
+
+	// const someData = deserializeHTMLToDocumentFragment(editor, {
+	// 	plugins,
+	// 	element: body,
+	// });
+
+	// if (typeof window !== 'undefined') {
+	// 	console.log(someData);
+	// 	localStorage.setItem('content', JSON.stringify(someData));
+	// }
 
 	function handleOk() {
 		setVisible(false);

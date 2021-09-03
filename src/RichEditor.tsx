@@ -57,14 +57,15 @@ import {
 	createDeserializeCSVPlugin,
 	createDeserializeAstPlugin,
 	getEditableRenderLeaf,
-	ImageElement,
 	ELEMENT_MEDIA_EMBED,
 	MediaEmbedElement,
 	StyledElement,
 	getPlateState,
+	useEditorRef,
 } from '@udecode/plate';
 import { MARK_ITALIC } from '@udecode/plate-basic-marks';
 // import { initialValuePlayground } from './config/initialValues';
+import { ImageElement } from './elements/image/ImageElement';
 import {
 	editableProps,
 	optionsExitBreakPlugin,
@@ -143,7 +144,6 @@ let components = createPlateComponents({
 			},
 			img: {
 				width: '100%',
-				zIndex: '1 !important',
 				maxHeight: '40rem !important',
 			},
 		},
@@ -168,18 +168,66 @@ let components = createPlateComponents({
 	}),
 	// customize your components by plugin key
 });
-// components = withStyledPlaceHolders(components);
-// components = withStyledDraggables(components);
 
 const options = createPlateOptions({
 	// customize your options by plugin key
 });
 
+export const plugins = [
+	createReactPlugin(),
+	createHistoryPlugin(),
+	createParagraphPlugin(),
+	createBlockquotePlugin(),
+	createTodoListPlugin(),
+	createHeadingPlugin(),
+	createImagePlugin(),
+	createLinkPlugin(),
+	createListPlugin(),
+	createTablePlugin(),
+	createMediaEmbedPlugin(),
+	createCodeBlockPlugin(),
+	// createExcalidrawPlugin(),
+	createAlignPlugin(),
+	createBoldPlugin(),
+	createCodePlugin(),
+	createItalicPlugin(),
+	createHighlightPlugin(),
+	createUnderlinePlugin(),
+	createStrikethroughPlugin(),
+	createSubscriptPlugin(),
+	createSuperscriptPlugin(),
+	createFontColorPlugin(),
+	createFontBackgroundColorPlugin(),
+	createKbdPlugin(),
+	createNodeIdPlugin(),
+	createDndPlugin(),
+	createAutoformatPlugin(optionsAutoformat),
+	createResetNodePlugin(optionsResetBlockTypePlugin),
+	createSoftBreakPlugin(optionsSoftBreakPlugin),
+	createExitBreakPlugin(optionsExitBreakPlugin),
+	createTrailingBlockPlugin({
+		type: ELEMENT_PARAGRAPH,
+	}),
+	createSelectOnBackspacePlugin({
+		allow: [ELEMENT_IMAGE],
+	}),
+];
+
+plugins.push(
+	...[
+		createDeserializeMDPlugin({ plugins }),
+		createDeserializeCSVPlugin({ plugins }),
+		createDeserializeHTMLPlugin({ plugins }),
+		createDeserializeAstPlugin({ plugins }),
+	]
+);
+
 const Plugins = () => {
 	// const [editorValue, setEditorValue] = useState(
 	// 	data ? JSON.parse(data) : null
 	// );
-
+	// const slate = getPlateState(id);
+	console.log(getPlateState);
 	const info = [
 		{
 			type: ELEMENT_PARAGRAPH,
@@ -281,12 +329,13 @@ const Plugins = () => {
 						// console.log(value);
 						const content = JSON.stringify(value);
 						localStorage.setItem('content', content);
+						return debounce(storeInLocal, 300);
 					}}
 					initialValue={data ? JSON.parse(data) : info}
 				>
 					<div className='bg-white relative'>
 						<HeadingToolbar>
-							<div className='w-full absolute top-0 z-10 bg-gray-200 rounded-lg flex items-center flex-wrap py-3'>
+							<div className='w-full sticky z-10 bg-gray-200 rounded-lg flex items-center flex-wrap py-3'>
 								<ToolbarButtons />
 							</div>
 						</HeadingToolbar>
