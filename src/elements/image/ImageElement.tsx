@@ -54,20 +54,6 @@ export const ImageElement = (props: ImageElementProps) => {
 
 	const styles = getImageElementStyles({ ...props, align, focused, selected });
 
-	const setNodeWidth = useCallback(
-		(w: number) => {
-			const path = ReactEditor.findPath(editor, element);
-
-			if (w === nodeWidth) {
-				// Focus the node if not resized
-				Transforms.select(editor, path);
-			} else {
-				setNodes(editor, { width: w }, { at: path });
-			}
-		},
-		[editor, element, nodeWidth]
-	);
-
 	const onChangeCaption: ChangeEventHandler<HTMLTextAreaElement> = useCallback(
 		(e) => {
 			const path = ReactEditor.findPath(editor as ReactEditor, element);
@@ -104,14 +90,9 @@ export const ImageElement = (props: ImageElementProps) => {
 						{...nodeProps}
 					/>
 
-					{!caption.disabled && (captionString.length || selected) && (
-						<figcaption
-							style={{ width }}
-							// @ts-ignore
-							css={styles.figcaption?.css}
-							// @ts-ignore
-							className={styles.figcaption?.className}
-						>
+					{/* !caption.disabled && (captionString.length || selected) */}
+					{true && (
+						<figcaption style={{ width }}>
 							<TextareaAutosize
 								// @ts-ignore
 								css={styles.caption?.css}
@@ -120,8 +101,6 @@ export const ImageElement = (props: ImageElementProps) => {
 									outline: 'none',
 									textAlign: 'center',
 								}}
-								// @ts-ignore
-								className={styles.caption?.className}
 								value={nodeCaption[0].text}
 								placeholder={placeholder}
 								onChange={onChangeCaption}
