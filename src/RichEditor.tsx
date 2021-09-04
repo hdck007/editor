@@ -115,8 +115,6 @@ export const createElement = (
 	};
 };
 
-// console.log(component());
-
 let components = createPlateComponents({
 	[ELEMENT_MENTION]: withProps(MentionElement, {
 		renderLabel: renderMentionLabel,
@@ -223,11 +221,6 @@ plugins.push(
 );
 
 const Plugins = () => {
-	// const [editorValue, setEditorValue] = useState(
-	// 	data ? JSON.parse(data) : null
-	// );
-	// const slate = getPlateState(id);
-	console.log(getPlateState);
 	const info = [
 		{
 			type: ELEMENT_PARAGRAPH,
@@ -299,9 +292,6 @@ const Plugins = () => {
 	}, [mentionPlugin, searchHighlightPlugin]);
 
 	function storeInLocal() {
-		console.log('This');
-		// const content = JSON.stringify(editor);
-		// localStorage.setItem('content', content)
 	}
 
 	// function debounceWrapper(value: any) {
@@ -326,7 +316,6 @@ const Plugins = () => {
 					options={options}
 					editableProps={editableProps}
 					onChange={(value) => {
-						// console.log(value);
 						const content = JSON.stringify(value);
 						localStorage.setItem('content', content);
 						return debounce(storeInLocal, 300);

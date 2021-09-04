@@ -114,7 +114,6 @@ export const createBasicPlugin = (): PlatePlugin => ({
 	pluginKeys: 'BASIC_PLUGIN',
 	onKeyDown: () =>
 		function () {
-			// console.log('hi');
 		},
 	renderElement: getRenderElement(ELEMENT_TD),
 });

@@ -5,8 +5,6 @@ import { PreviewLeafStyleProps } from './PreviewLeaf.types';
 export const getPreviewLeafStyles = (props: PreviewLeafStyleProps) => {
 	const { title, List, italic, hr, code, bold, blockquote } = props;
 
-	console.log(props, 'props')
-
 	const boldStyle: CSSProp = {
 		fontWeight: 'bold',
 	};

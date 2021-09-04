@@ -92,7 +92,6 @@ const ImageUpload: React.FC<{ handleOk: Function; location: any }> = ({
 			const { status } = info.file;
 			if (status === 'done') {
 				message.success(`${info.file.name} file uploaded successfully.`);
-				// info.file.arrayBuffer().then((buffer: any) => console.log(buffer));
 			} else if (status === 'error') {
 				message.error(`${info.file.name} file upload failed.`);
 			}
