@@ -15,6 +15,7 @@ const Picker = () => {
 			editor.insertText(event.detail.unicode);
 		});
 		ref.current.skinToneEmoji = '👍';
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return React.createElement('emoji-picker', { ref, class: 'light z-10' });

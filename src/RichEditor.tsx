@@ -281,6 +281,7 @@ const Plugins = ({ setIsMd }: any) => {
 				}
 			},
 		}),
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[]
 	);
 

@@ -1,34 +1,16 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable @next/next/no-img-element */
 import React, { useState } from 'react';
-import { Upload, message } from 'antd';
+import { Upload } from 'antd';
 import { Input } from 'antd';
-import { Image } from 'antd';
 import { createApi } from 'unsplash-js';
-import { Button } from 'antd/lib/radio';
-import { InboxOutlined } from '@ant-design/icons';
-import { SetStateAction } from 'react';
-import { any } from 'prop-types';
-import { useEffect } from 'react';
-import { useEditor } from 'slate-react';
 import { Modal } from 'antd';
-import { BsImage } from 'react-icons/bs';
-import { plugins } from '../RichEditor';
 import {
-	Serialize,
-	deserializeHTMLToDocumentFragment,
-	ELEMENT_ALIGN_CENTER,
 	ELEMENT_IMAGE,
-	ELEMENT_MEDIA_EMBED,
-	ELEMENT_PARAGRAPH,
-	insertImage,
-	insertMediaEmbed,
 	insertNodes,
-	isEnd,
-	ToolbarButton,
 	useEditorRef,
 } from '@udecode/plate';
 import { FiImage } from 'react-icons/fi';
-
-const { Dragger } = Upload;
 
 const api = createApi({
 	// Don't forget to set your access token here!
@@ -80,9 +62,12 @@ const PhotoComp: React.FC<{
 
 	return (
 		<>
-			<Image
-				preview={false}
-				className='img'
+			<img
+				style={{
+					width: '100%',
+					height: '100%',
+					objectFit: 'cover',
+				}}
 				src={urls.regular}
 				onClick={handleClick}
 			/>
@@ -118,7 +103,7 @@ const ImageSearch = ({ editor, location, setNode }: any) => {
 
 	function onSearch(props: any) {
 		api.search
-			.getPhotos({ query: props })
+			.getPhotos({ query: props, orientation: 'landscape' })
 			.then((result: any) => {
 				setPhotosResponse(result);
 			})
@@ -156,19 +141,22 @@ const ImageSearch = ({ editor, location, setNode }: any) => {
 					onSearch={onSearch}
 					allowClear={true}
 				/>
-				<div className='overflow-y-auto h-72'>
-					<ul>
-						{data.response.results.map((photo: Photo) => (
-							<li key={photo.id} className='li'>
-								<PhotoComp
-									photo={photo}
-									handleOk={handleOk}
-									location={location}
-									setNode={setNode}
-								/>
-							</li>
-						))}
-					</ul>
+				<div className='overflow-y-auto h-72 flex flex-wrap justify-start'>
+					{data.response.results.map((photo: Photo) => (
+						<div
+							key={photo.id}
+							style={{
+								flex: '1 1 150px',
+							}}
+						>
+							<PhotoComp
+								photo={photo}
+								handleOk={handleOk}
+								location={location}
+								setNode={setNode}
+							/>
+						</div>
+					))}
 				</div>
 			</Modal>
 		</>

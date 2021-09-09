@@ -5,14 +5,7 @@ import { useState } from 'react';
 import { useEditorRef } from '@udecode/plate-core';
 import { ELEMENT_MEDIA_EMBED } from '@udecode/plate-media-embed';
 import {
-	ELEMENT_PARAGRAPH,
-	getKbdDeserialize,
-	getLastChild,
-	getLastChildPath,
-	getPlateState,
-	getPreviousPath,
 	insertNodes,
-	ToolbarButton,
 } from '@udecode/plate';
 import { BiVideo } from 'react-icons/bi';
 
@@ -106,7 +99,7 @@ const EmbedButton = ({ editor, location, setNode }: any) => {
 				</span>
 			</button>
 			<Modal
-				title='Basic Modal'
+				title='Embed a Video'
 				visible={visible}
 				onOk={(e) => handleSubmit(e)}
 				onCancel={handleCancel}
