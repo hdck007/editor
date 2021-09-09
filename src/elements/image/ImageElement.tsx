@@ -6,6 +6,7 @@ import React, {
 	useMemo,
 	useState,
 } from 'react';
+import { MediaEmbedUrlInput } from '@udecode/plate-media-embed-ui';
 import TextareaAutosize from 'react-textarea-autosize';
 import { setNodes } from '@udecode/plate-common';
 import { useEditorRef } from '@udecode/plate-core';
@@ -66,6 +67,8 @@ export const ImageElement = (props: ImageElementProps) => {
 		return Node.string(nodeCaption[0]) || '';
 	}, [nodeCaption]);
 
+	// console.log(url);
+
 	return (
 		<div
 			{...attributes}
@@ -73,42 +76,41 @@ export const ImageElement = (props: ImageElementProps) => {
 			css={styles.root.css}
 			className={styles.root.className}
 		>
-			<div contentEditable={false}>
-				<figure
+			<figure
+				contentEditable={false}
+				// @ts-ignore
+				css={styles.figure?.css}
+				// @ts-ignore
+				className={`group ${styles.figure?.className}`}
+			>
+				<img
+					data-testid='ImageElementImage'
 					// @ts-ignore
-					css={styles.figure?.css}
-					// @ts-ignore
-					className={`group ${styles.figure?.className}`}
-				>
-					<img
-						data-testid='ImageElementImage'
-						// @ts-ignore
-						css={styles.img?.css}
-						className={styles.img?.className}
-						src={url}
-						alt={captionString}
-						{...nodeProps}
-					/>
+					css={styles.img?.css}
+					className={styles.img?.className}
+					src={url}
+					alt={captionString}
+					{...nodeProps}
+				/>
 
-					{/* !caption.disabled && (captionString.length || selected) */}
-					{true && (
-						<figcaption style={{ width }}>
-							<TextareaAutosize
-								// @ts-ignore
-								css={styles.caption?.css}
-								style={{
-									width: '100%',
-									outline: 'none',
-									textAlign: 'center',
-								}}
-								value={nodeCaption[0].text}
-								placeholder={placeholder}
-								onChange={onChangeCaption}
-							/>
-						</figcaption>
-					)}
-				</figure>
-			</div>
+				{/* !caption.disabled && (captionString.length || selected) */}
+				{true && (
+					<figcaption
+						style={{ width }}
+					>
+						<TextareaAutosize
+							style={{
+								outline: 'none',
+								width: '100%',
+								textAlign: 'center',
+							}}
+							value={nodeCaption[0].text}
+							placeholder={placeholder}
+							onChange={onChangeCaption}
+						/>
+					</figcaption>
+				)}
+			</figure>
 			{children}
 		</div>
 	);

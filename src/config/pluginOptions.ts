@@ -112,17 +112,18 @@ export const optionsAutoformat: WithAutoformatOptions = {
 
 export const createBasicPlugin = (): PlatePlugin => ({
 	pluginKeys: 'BASIC_PLUGIN',
-	onKeyDown: () =>
-		function () {
-		},
+	onKeyDown: () => function () {},
 	renderElement: getRenderElement(ELEMENT_TD),
 });
-
 
 export const editableProps: any = {
 	placeholder: 'Enter some rich text…',
 	spellCheck: false,
 	padding: '0 30px',
+	// onMouseDown: (event: any) => {
+	// 	console.log('Happens');
+	// 	console.log({ event });
+	// },
 	// onKeyUp: debounce(storeInLocal, 300),
 	onBlur: (editor: BaseEditor & { lastSelection: any }) => {
 		editor.lastSelection = editor.selection;

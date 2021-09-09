@@ -4,7 +4,9 @@ import { Modal } from 'antd';
 import EmbedButton from './InsertMediaButton';
 import React from 'react';
 import { TippyProps } from '@tippyjs/react';
+import { plugins } from '../RichEditor';
 import {
+	serializeHTMLFromNodes,
 	ToolbarButton,
 	addColumn,
 	addRow,
@@ -46,44 +48,27 @@ import {
 	useEventEditorId,
 	getPlatePluginType,
 	MARK_HIGHLIGHT,
-	MARK_COLOR,
-	MARK_BG_COLOR,
-	ToolbarColorPicker,
 	useEditorRef,
+	createImagePlugin,
+	ELEMENT_IMAGE,
 } from '@udecode/plate';
-import { BsCodeSlash, BsImage } from 'react-icons/bs';
-import {
-	BiCodeBlock,
-	BiBorderAll,
-	BiBorderBottom,
-	BiFontColor,
-} from 'react-icons/bi';
-import { ImSubscript, ImSuperscript } from 'react-icons/im';
 import {
 	AiOutlineHighlight,
-	AiOutlineBorderLeft,
-	AiOutlineBorderRight,
-	AiOutlineBorderTop,
-	AiOutlineAlignCenter,
-	AiOutlineAlignRight,
-	AiOutlineAlignLeft,
 	AiOutlineBold,
 	AiOutlineItalic,
-	AiOutlineUnorderedList,
-	AiOutlineOrderedList,
-	AiOutlineStrikethrough,
 } from 'react-icons/ai';
-import { FaQuoteRight, FaUnderline, FaKeyboard } from 'react-icons/fa';
-import { FiAlignJustify, FiLink } from 'react-icons/fi';
-import {
-	MdBorderClear,
-	MdLooks3,
-	MdLooksOne,
-	MdLooksTwo,
-	MdFontDownload,
-} from 'react-icons/md';
-import { useState } from 'react';
-import ImageUploadAndSearch from './ImageButton';
+import { FaUnderline, FaKeyboard } from 'react-icons/fa';
+import HeadingIcon from '../../public/H1.svg';
+import QuoteIcon from '../../public/blockquote.svg';
+import HeadingTwoIcon from '../../public/h2.svg';
+import CodeIcon from '../../public/codeblock.svg';
+import InlineCodeIcon from '../../public/inlinecode.svg';
+import OLIcon from '../../public/OL.svg';
+import ULIcon from '../../public/UL.svg';
+import BoldIcon from '../../public/Bold.svg';
+import ItalicIcon from '../../public/italics.svg';
+import UnderlineIcon from '../../public/underline.svg';
+import LinkIcon from '../../public/link.svg';
 import EmojiButton from './EmojiPanel';
 
 export const ToolbarButtonsBasicElements = () => {
@@ -93,23 +78,19 @@ export const ToolbarButtonsBasicElements = () => {
 		<>
 			<ToolbarElement
 				type={getPlatePluginType(editor, ELEMENT_H1)}
-				icon={<MdLooksOne />}
+				icon={<HeadingIcon />}
 			/>
 			<ToolbarElement
 				type={getPlatePluginType(editor, ELEMENT_H2)}
-				icon={<MdLooksTwo />}
+				icon={<HeadingTwoIcon />}
 			/>
-			{/* <ToolbarElement
-				type={getPlatePluginType(editor, ELEMENT_H3)}
-				icon={<MdLooks3 />}
-			/> */}
 			<ToolbarElement
 				type={getPlatePluginType(editor, ELEMENT_BLOCKQUOTE)}
-				icon={<FaQuoteRight />}
+				icon={<QuoteIcon />}
 			/>
 			<ToolbarCodeBlock
 				type={getPlatePluginType(editor, ELEMENT_CODE_BLOCK)}
-				icon={<BiCodeBlock />}
+				icon={<CodeIcon />}
 			/>
 		</>
 	);
@@ -122,33 +103,11 @@ export const ToolbarButtonsList = () => {
 		<>
 			<ToolbarList
 				type={getPlatePluginType(editor, ELEMENT_UL)}
-				icon={<AiOutlineUnorderedList />}
+				icon={<ULIcon />}
 			/>
 			<ToolbarList
 				type={getPlatePluginType(editor, ELEMENT_OL)}
-				icon={<AiOutlineOrderedList />}
-			/>
-		</>
-	);
-};
-
-export const ToolbarButtonsAlign = () => {
-	const editor = useStoreEditorRef(useEventEditorId('focus'));
-
-	return (
-		<>
-			<ToolbarAlign icon={<AiOutlineAlignLeft />} />
-			<ToolbarAlign
-				type={getPlatePluginType(editor, ELEMENT_ALIGN_CENTER)}
-				icon={<AiOutlineAlignCenter />}
-			/>
-			<ToolbarAlign
-				type={getPlatePluginType(editor, ELEMENT_ALIGN_RIGHT)}
-				icon={<AiOutlineAlignRight />}
-			/>
-			<ToolbarAlign
-				type={getPlatePluginType(editor, ELEMENT_ALIGN_JUSTIFY)}
-				icon={<FiAlignJustify />}
+				icon={<OLIcon />}
 			/>
 		</>
 	);
@@ -161,23 +120,19 @@ export const ToolbarButtonsBasicMarks = () => {
 		<>
 			<ToolbarMark
 				type={getPlatePluginType(editor, MARK_BOLD)}
-				icon={<AiOutlineBold />}
+				icon={<BoldIcon />}
 			/>
 			<ToolbarMark
 				type={getPlatePluginType(editor, MARK_ITALIC)}
-				icon={<AiOutlineItalic />}
+				icon={<ItalicIcon />}
 			/>
 			<ToolbarMark
 				type={getPlatePluginType(editor, MARK_UNDERLINE)}
-				icon={<FaUnderline />}
+				icon={<UnderlineIcon />}
 			/>
-			{/* <ToolbarMark
-				type={getPlatePluginType(editor, MARK_STRIKETHROUGH)}
-				icon={<AiOutlineStrikethrough />}
-			/> */}
 			<ToolbarMark
 				type={getPlatePluginType(editor, MARK_CODE)}
-				icon={<BsCodeSlash />}
+				icon={<InlineCodeIcon />}
 			/>
 		</>
 	);
@@ -204,17 +159,6 @@ export const ToolbarAiOutlineHighlight = () => {
 		/>
 	);
 };
-
-export const ToolbarButtonsTable = () => (
-	<>
-		<ToolbarTable icon={<BiBorderAll />} transform={insertTable} />
-		<ToolbarTable icon={<MdBorderClear />} transform={deleteTable} />
-		<ToolbarTable icon={<BiBorderBottom />} transform={addRow} />
-		<ToolbarTable icon={<AiOutlineBorderTop />} transform={deleteRow} />
-		<ToolbarTable icon={<AiOutlineBorderLeft />} transform={addColumn} />
-		<ToolbarTable icon={<AiOutlineBorderRight />} transform={deleteColumn} />
-	</>
-);
 
 export const BallonToolbarMarks = () => {
 	const editor = useStoreEditorRef(useEventEditorId('focus'));
@@ -258,23 +202,78 @@ export const BallonToolbarMarks = () => {
 	);
 };
 
-export const ToolbarButtons = () => {
+const createCustomImagePlugin = () => {
+	const plugin = createImagePlugin();
+	return {
+		...plugin,
+		deserialize: (data: any) => {
+			// @ts-ignore
+			return plugin.deserialize(data);
+		},
+		serialize: (data: any) => {
+			// console.log({ data });
+			return '';
+		},
+	};
+};
+
+export const ToolbarButtons = ({ setIsMd }: any) => {
 	const editor = useEditorRef();
+
+	let data;
+	if (typeof window !== 'undefined') {
+		data = localStorage.getItem('content');
+	}
+
+	if (data !== undefined) {
+		// const convertedData = JSON.parse(data);
+		const convertedData = [
+			{
+				type: ELEMENT_IMAGE,
+				url: 'https://miro.medium.com/max/38/0*pSMij0bYk4_7qywk?q=20',
+				children: [
+					{
+						text: '',
+					},
+				],
+				caption: [
+					{
+						text: 'cool',
+					},
+				],
+			},
+		];
+		try {
+			const theRenderedHtml = serializeHTMLFromNodes(editor, {
+				// @ts-ignore
+				plugins: [createCustomImagePlugin()],
+				nodes: convertedData.slice(0, 6),
+			});
+			// console.log(theRenderedHtml);
+		} catch (error) {
+			// console.log(error);
+		}
+		// console.log(convertedData);
+	}
 
 	return (
 		<>
 			<ToolbarButtonsBasicElements />
 			<ToolbarButtonsList />
 			<ToolbarButtonsBasicMarks />
-			{/* <ToolbarColorPicker pluginKey={MARK_COLOR} icon={<BiFontColor />} />
-		<ToolbarColorPicker pluginKey={MARK_BG_COLOR} icon={<MdFontDownload />} /> */}
-			{/* <ToolbarButtonsAlign /> */}
-			<ToolbarLink icon={<FiLink />} />
-			<ImageUploadAndSearch editor={editor} />
-			{/* <ToolbarButton onMouseDown={() => setVisible(true)} icon={<BsImage />} /> */}
-			{/* <ToolbarButtonsTable /> */}
-			<EmbedButton editor={editor} />
+			<ToolbarLink icon={<LinkIcon />} />
 			<EmojiButton />
+
+			{/* Replace the span by intrinsic styles from the toolbar button */}
+			<span
+				style={{
+					width: '120px',
+					textAlign: 'center',
+				}}
+				onMouseDown={() => setIsMd((prev: boolean) => !prev)}
+			>
+				{'Markdown Editor'}
+			</span>
 		</>
 	);
 };

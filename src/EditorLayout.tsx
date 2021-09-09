@@ -8,12 +8,7 @@ export default function EditorLayout({ children }: any) {
 				position: 'relative',
 			}}
 		>
-			<header
-				className='h-10'
-				style={{
-					background: '#008080',
-				}}
-			></header>
+			<header className='h-10'></header>
 			<div
 				style={{
 					minHeight: '80vh',

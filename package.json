@@ -22,6 +22,7 @@
 		"react-dom": "17.0.2",
 		"react-draft-wysiwyg": "^1.14.7",
 		"react-icons": "^4.2.0",
+		"react-portal": "^4.2.1",
 		"react-textarea-autosize": "^8.3.3",
 		"slate": "^0.65.3",
 		"slate-history": "^0.65.3",
@@ -32,8 +33,10 @@
 		"unsplash-js": "^7.0.15"
 	},
 	"devDependencies": {
+		"@svgr/webpack": "^5.5.0",
 		"@types/prismjs": "^1.16.6",
 		"@types/react": "17.0.18",
+		"@types/react-dom": "^17.0.9",
 		"@types/styled-components": "^5.1.13",
 		"autoprefixer": "^10.3.1",
 		"eslint": "7.32.0",

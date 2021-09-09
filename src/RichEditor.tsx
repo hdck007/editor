@@ -1,5 +1,6 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { debounce } from 'lodash';
+import SideToolBar from './config/SideToolBar/SideToolBar';
 import {
 	ELEMENT_IMAGE,
 	ELEMENT_PARAGRAPH,
@@ -9,7 +10,6 @@ import {
 	MentionSelect,
 	PlatePlugin,
 	Plate,
-	ToolbarSearchHighlight,
 	createAlignPlugin,
 	createAutoformatPlugin,
 	createBlockquotePlugin,
@@ -56,18 +56,14 @@ import {
 	createDeserializeMDPlugin,
 	createDeserializeCSVPlugin,
 	createDeserializeAstPlugin,
-	getEditableRenderLeaf,
 	ELEMENT_MEDIA_EMBED,
 	MediaEmbedElement,
 	StyledElement,
-	getPlateState,
-	useEditorRef,
+	useStoreEditorRef,
+	// ImageElement,
 } from '@udecode/plate';
-import { MARK_ITALIC } from '@udecode/plate-basic-marks';
-// import { initialValuePlayground } from './config/initialValues';
 import { ImageElement } from './elements/image/ImageElement';
 import {
-	editableProps,
 	optionsExitBreakPlugin,
 	optionsMentionPlugin,
 	optionsResetBlockTypePlugin,
@@ -76,15 +72,10 @@ import {
 } from './config/pluginOptions';
 import { renderMentionLabel } from './config/renderMentionLabel';
 import { BallonToolbarMarks, ToolbarButtons } from './config/Toolbars';
-// import { withStyledPlaceHolders } from './config/withStylePlaceHolders';
-// import { withStyledDraggables } from './config/withStylesDraggable';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { HistoryEditor } from 'slate-history';
 import { ReactEditor } from 'slate-react';
-import { Editor } from 'slate';
-import { createBasicPlugin } from './config/pluginOptions';
-import { useState } from 'react';
 
 type TEditor = SPEditor & ReactEditor & HistoryEditor;
 
@@ -134,10 +125,10 @@ let components = createPlateComponents({
 	[ELEMENT_IMAGE]: withProps(ImageElement, {
 		nodeProps: {
 			alt: 'image',
+			data: 'useless',
 		},
 		styles: {
 			root: {
-				textAlign: 'center',
 				maxHeight: '40rem !important',
 			},
 			img: {
@@ -171,6 +162,23 @@ const options = createPlateOptions({
 	// customize your options by plugin key
 });
 
+const createCustomImagePlugin = () => {
+	const plugin = createImagePlugin();
+	return {
+		...plugin,
+		deserialize: (data: any) => {
+			// console.log({ data });
+		},
+		serialize: (data: any) => {
+			// console.log({ data });
+			return '';
+		},
+	};
+};
+
+// console.log(createImagePlugin());
+// console.log(createCustomImagePlugin());
+
 export const plugins = [
 	createReactPlugin(),
 	createHistoryPlugin(),
@@ -178,7 +186,7 @@ export const plugins = [
 	createBlockquotePlugin(),
 	createTodoListPlugin(),
 	createHeadingPlugin(),
-	createImagePlugin(),
+	createCustomImagePlugin(),
 	createLinkPlugin(),
 	createListPlugin(),
 	createTablePlugin(),
@@ -213,14 +221,22 @@ export const plugins = [
 
 plugins.push(
 	...[
+		// @ts-ignore
 		createDeserializeMDPlugin({ plugins }),
+		// @ts-ignore
 		createDeserializeCSVPlugin({ plugins }),
+		// @ts-ignore
 		createDeserializeHTMLPlugin({ plugins }),
+		// @ts-ignore
 		createDeserializeAstPlugin({ plugins }),
 	]
 );
 
-const Plugins = () => {
+const Plugins = ({ setIsMd }: any) => {
+	const [node, setNode] = useState(null);
+	const [location, setLocation] = useState(null);
+	const editor = useStoreEditorRef(id);
+
 	const info = [
 		{
 			type: ELEMENT_PARAGRAPH,
@@ -231,6 +247,42 @@ const Plugins = () => {
 			],
 		},
 	];
+
+	const editableProps = useMemo(
+		() => ({
+			placeholder: 'Enter some rich text…',
+			spellCheck: false,
+			padding: '0 30px',
+			onMouseUp: (event: any) => {
+				const selection = window.getSelection();
+				const container =
+					selection?.focusNode?.parentNode?.parentNode?.parentNode
+						?.parentElement;
+				console.log({ selection, container });
+				if (selection?.focusNode?.nodeValue?.trim()) {
+					setNode(null);
+				} else {
+					setNode(container as any);
+					// @ts-ignore
+					setLocation(editor?.selection);
+				}
+			},
+			onKeyUp: (event: any) => {
+				const selection = window.getSelection();
+				const container =
+					selection?.focusNode?.parentNode?.parentNode?.parentNode
+						?.parentElement;
+				if (selection?.focusNode?.nodeValue?.trim()) {
+					setNode(null);
+				} else {
+					setNode(container as any);
+					// @ts-ignore
+					setLocation(editor?.selection);
+				}
+			},
+		}),
+		[]
+	);
 
 	const { setSearch, plugin: searchHighlightPlugin } = useFindReplacePlugin();
 	const { getMentionSelectProps, plugin: mentionPlugin } =
@@ -291,8 +343,7 @@ const Plugins = () => {
 		return plugins;
 	}, [mentionPlugin, searchHighlightPlugin]);
 
-	function storeInLocal() {
-	}
+	function storeInLocal() {}
 
 	// function debounceWrapper(value: any) {
 	// 	let timer: any;
@@ -306,37 +357,47 @@ const Plugins = () => {
 	// 	};
 	// }
 
+	// console.log(JSON.parse(data));
+
 	return (
-		<div className='mx-auto my-9 w-1/2 h-5/6 md:w-6/6 pb-4'>
-			<DndProvider backend={HTML5Backend}>
-				<Plate
-					id={id}
-					plugins={pluginsMemo}
-					components={components}
-					options={options}
-					editableProps={editableProps}
-					onChange={(value) => {
-						const content = JSON.stringify(value);
-						localStorage.setItem('content', content);
-						return debounce(storeInLocal, 300);
-					}}
-					initialValue={data ? JSON.parse(data) : info}
-				>
-					<div className='bg-white relative'>
-						<HeadingToolbar>
-							<div className='w-full sticky z-10 bg-gray-200 rounded-lg flex items-center flex-wrap py-3'>
-								<ToolbarButtons />
-							</div>
-						</HeadingToolbar>
-					</div>
-					<BallonToolbarMarks />
-					<MentionSelect
-						{...getMentionSelectProps()}
-						renderLabel={renderMentionLabel}
-					/>
-				</Plate>
-			</DndProvider>
-		</div>
+		<>
+			<br />
+			<div className='mx-auto my-9 w-1/2 h-5/6 md:w-6/6 pb-4'>
+				<DndProvider backend={HTML5Backend}>
+					<Plate
+						id={id}
+						plugins={pluginsMemo}
+						components={components}
+						options={options}
+						editableProps={editableProps}
+						onChange={(value) => {
+							const content = JSON.stringify(value);
+							localStorage.setItem('content', content);
+							return debounce(storeInLocal, 300);
+						}}
+						initialValue={data ? JSON.parse(data) : info}
+					>
+						<SideToolBar node={node} setNode={setNode} />
+						<div className='z-10 fixed top-0 w-1/2 bg-white'>
+							<HeadingToolbar
+								style={{
+									border: 'none',
+								}}
+							>
+								<div className='w-full z-10 rounded-lg flex items-center justify-around flex-wrap py-3'>
+									<ToolbarButtons setIsMd={setIsMd} />
+								</div>
+							</HeadingToolbar>
+						</div>
+						<BallonToolbarMarks />
+						<MentionSelect
+							{...getMentionSelectProps()}
+							renderLabel={renderMentionLabel}
+						/>
+					</Plate>
+				</DndProvider>
+			</div>
+		</>
 	);
 };
 

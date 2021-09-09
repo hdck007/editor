@@ -16,16 +16,11 @@ import {
 } from '@udecode/plate';
 import { BiVideo } from 'react-icons/bi';
 
-const EmbedButton = ({ editor }) => {
+const EmbedButton = ({ editor, location, setNode }: any) => {
 	const [url, setUrl] = useState('');
 	const [visible, setVisible] = useState(false);
-	const [location, setLocation] = useState(null);
 
-	React.useEffect(() => {
-		setLocation(editor.selection);
-	}, [visible]);
-
-	function handleSubmit(e) {
+	function handleSubmit(e: any) {
 		let theUrl = url;
 		if (theUrl.indexOf('youtube') >= 0 || theUrl.indexOf('youtu.be') >= 0) {
 			if (theUrl.indexOf('=') >= 0) {
@@ -86,6 +81,7 @@ const EmbedButton = ({ editor }) => {
 				}
 			);
 		}
+		setNode(null);
 		setVisible(false);
 	}
 
@@ -95,7 +91,20 @@ const EmbedButton = ({ editor }) => {
 
 	return (
 		<>
-			<ToolbarButton onMouseDown={() => setVisible(true)} icon={<BiVideo />} />
+			<button
+				style={{
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'space-around',
+					width: '120px',
+				}}
+				onMouseDown={() => setVisible(true)}
+			>
+				<span>{'Embed a video'}</span>
+				<span>
+					<BiVideo />
+				</span>
+			</button>
 			<Modal
 				title='Basic Modal'
 				visible={visible}
