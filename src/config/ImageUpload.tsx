@@ -6,7 +6,10 @@ import { ELEMENT_IMAGE } from '@udecode/plate-image';
 import { message } from 'antd';
 import { BsUpload } from 'react-icons/bs';
 
-const ImageUpload: React.FC<{ location: any; setNode: any}> = ({ location, setNode }) => {
+const ImageUpload: React.FC<{ location: any; setNode: any }> = ({
+	location,
+	setNode,
+}) => {
 	const editor = useEditorRef();
 
 	const fileToBuffer = (file: any) =>
@@ -52,7 +55,12 @@ const ImageUpload: React.FC<{ location: any; setNode: any}> = ({ location, setNo
 	};
 
 	return (
-		<Upload {...props} maxCount={1} fileList={[]}>
+		<Upload
+			{...props}
+			maxCount={1}
+			showUploadList={false}
+			className="upload-btn-custom"
+		>
 			<span
 				style={{
 					display: 'flex',

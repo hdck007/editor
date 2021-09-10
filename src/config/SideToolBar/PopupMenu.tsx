@@ -19,6 +19,8 @@ function SideBarButton({ children }: any) {
 				alignItems: 'center',
 				justifyContent: 'space-around',
 				background: 'none',
+				height: '25px',
+				overflow: 'hidden',
 			}}
 		>
 			{children}

@@ -106,7 +106,6 @@ const options = createPlateOptions({
 
 const MDEditor = ({ setIsMd }: any) => {
 	const [node, setNode] = useState(null);
-
 	const editor = useStoreEditorRef(id);
 	const [location, setLocation] = useState(null);
 
@@ -138,10 +137,12 @@ const MDEditor = ({ setIsMd }: any) => {
 				}
 			},
 			onBlur: (event: any) => {
-				// @ts-ignore
-				console.log(editor.selection);
-				// @ts-ignore
-				setLocation(editor.selection);
+				if (editor && editor?.selection) {
+					// @ts-ignore
+					console.log(editor.selection);
+					// @ts-ignore
+					setLocation(editor.selection);
+				}
 			},
 		}),
 		[]
@@ -150,7 +151,7 @@ const MDEditor = ({ setIsMd }: any) => {
 	return (
 		<>
 			<br />
-			<div className='mx-auto my-9 w-1/2 h-5/6 md:w-6/6 pb-4'>
+			<div className='mx-auto my-9 w-1/2 h-5/6 pb-4'>
 				<DndProvider backend={HTML5Backend}>
 					<Plate
 						id={id}
@@ -159,13 +160,13 @@ const MDEditor = ({ setIsMd }: any) => {
 						options={options}
 						editableProps={editableProps}
 					>
-						<div className='z-10 fixed top-0 w-1/2 bg-white'>
+						<div className='left-1/4 z-10 fixed top-0 w-full bg-white'>
 							<HeadingToolbar
 								style={{
 									border: 'none',
 								}}
 							>
-								<div className='w-full rounded-lg flex items-center justify-between flex-wrap py-3'>
+								<div className='w-1/2 rounded-lg flex items-center justify-between flex-wrap py-3'>
 									<ToolbarButtonsMD setIsMd={setIsMd} location={location} />
 								</div>
 							</HeadingToolbar>

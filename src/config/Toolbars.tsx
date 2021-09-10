@@ -145,7 +145,7 @@ export const BallonToolbarMarks = () => {
 	const editor = useStoreEditorRef(useEventEditorId('focus'));
 
 	const arrow = false;
-	const theme = 'dark';
+	const theme = 'light';
 	const direction = 'top';
 	const hiddenDelay = 0;
 	const tooltip: TippyProps = {

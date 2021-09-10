@@ -42,16 +42,25 @@ p {
 }
 
 :root::-webkit-scrollbar {
-  width: 12px;               /* width of the entire scrollbar */
+	width: 12px; /* width of the entire scrollbar */
 }
 
 :root::-webkit-scrollbar-track {
-  background: rgb(236, 235, 231);        /* color of the tracking area */
+	background: rgb(236, 235, 231); /* color of the tracking area */
 }
 
 :root::-webkit-scrollbar-thumb {
-  background-color: rgb(173, 173, 179);    /* color of the scroll thumb */
-  border-radius: 20px;
+	background-color: rgb(173, 173, 179); /* color of the scroll thumb */
+	border-radius: 20px;
+}
+
+.slate-ToolbarButton-active {
+	background-color: rgb(233, 232, 232);
+	border-radius: 5px;
+}
+
+.upload-btn-custom{
+	display: flex;
 }
 
 /* *{

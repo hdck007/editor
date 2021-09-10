@@ -379,13 +379,13 @@ const Plugins = ({ setIsMd }: any) => {
 						initialValue={data ? JSON.parse(data) : info}
 					>
 						<SideToolBar node={node} setNode={setNode} />
-						<div className='z-10 fixed top-0 w-1/2 bg-white'>
+						<div className='z-10 fixed top-0 w-full bg-white'>
 							<HeadingToolbar
 								style={{
 									border: 'none',
 								}}
 							>
-								<div className='w-full z-10 rounded-lg flex items-center justify-around flex-wrap'>
+								<div className='w-1/2 z-10 rounded-lg flex items-center justify-around flex-wrap'>
 									<ToolbarButtons setIsMd={setIsMd} />
 								</div>
 							</HeadingToolbar>
