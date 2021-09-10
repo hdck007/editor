@@ -385,7 +385,7 @@ const Plugins = ({ setIsMd }: any) => {
 									border: 'none',
 								}}
 							>
-								<div className='w-full z-10 rounded-lg flex items-center justify-around flex-wrap py-3'>
+								<div className='w-full z-10 rounded-lg flex items-center justify-around flex-wrap'>
 									<ToolbarButtons setIsMd={setIsMd} />
 								</div>
 							</HeadingToolbar>

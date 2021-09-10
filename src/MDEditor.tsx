@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { ToolbarButtons } from './config/Toolbars';
-import SideToolBar from './config/SideToolBar/SideToolBar';
+import { ToolbarButtons, ToolbarButtonsMD } from './config/Toolbars';
 import {
 	ELEMENT_PARAGRAPH,
 	createPlateComponents,
@@ -19,12 +18,16 @@ import {
 	createUnderlinePlugin,
 	createStrikethroughPlugin,
 	createCodePlugin,
+	createImagePlugin,
+	ELEMENT_IMAGE,
+	withProps,
+	ImageElement,
+	useStoreEditorRef,
 } from '@udecode/plate';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { HistoryEditor } from 'slate-history';
 import { ReactEditor } from 'slate-react';
-import { GrAddCircle } from 'react-icons/gr';
 import { createPreviewPlugin } from './markdown/createPreviewPlugin';
 
 type TEditor = SPEditor & ReactEditor & HistoryEditor;
@@ -73,9 +76,27 @@ const pluginsBasic = [
 	createUnderlinePlugin(), // underline mark
 	createStrikethroughPlugin(), // strikethrough mark
 	createCodePlugin(), // code mark
+
+	createImagePlugin(),
 ];
 
-let components = createPlateComponents({});
+let components = createPlateComponents({
+	[ELEMENT_IMAGE]: withProps(ImageElement, {
+		nodeProps: {
+			alt: 'image',
+			data: 'useless',
+		},
+		styles: {
+			root: {
+				maxHeight: '40rem !important',
+			},
+			img: {
+				width: '100%',
+				maxHeight: '40rem !important',
+			},
+		},
+	}),
+});
 
 const mdPlugins = [...pluginsBasic, createPreviewPlugin()];
 
@@ -85,6 +106,9 @@ const options = createPlateOptions({
 
 const MDEditor = ({ setIsMd }: any) => {
 	const [node, setNode] = useState(null);
+
+	const editor = useStoreEditorRef(id);
+	const [location, setLocation] = useState(null);
 
 	const editableProps = useMemo(
 		() => ({
@@ -114,7 +138,10 @@ const MDEditor = ({ setIsMd }: any) => {
 				}
 			},
 			onBlur: (event: any) => {
-				setNode(null);
+				// @ts-ignore
+				console.log(editor.selection);
+				// @ts-ignore
+				setLocation(editor.selection);
 			},
 		}),
 		[]
@@ -132,11 +159,14 @@ const MDEditor = ({ setIsMd }: any) => {
 						options={options}
 						editableProps={editableProps}
 					>
-						<SideToolBar node={node} />
-						<div className='z-10 fixed top-0 w-1/2'>
-							<HeadingToolbar>
-								<div className='w-full z-10 rounded-lg flex items-center justify-around flex-wrap py-3'>
-									<ToolbarButtons setIsMd={setIsMd} />
+						<div className='z-10 fixed top-0 w-1/2 bg-white'>
+							<HeadingToolbar
+								style={{
+									border: 'none',
+								}}
+							>
+								<div className='w-full rounded-lg flex items-center justify-between flex-wrap py-3'>
+									<ToolbarButtonsMD setIsMd={setIsMd} location={location} />
 								</div>
 							</HeadingToolbar>
 						</div>

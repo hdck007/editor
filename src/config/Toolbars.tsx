@@ -2,48 +2,27 @@ import 'tippy.js/animations/scale.css';
 import 'tippy.js/dist/tippy.css';
 import { Modal } from 'antd';
 import EmbedButton from './InsertMediaButton';
-import React from 'react';
+import React, { useState } from 'react';
 import { TippyProps } from '@tippyjs/react';
-import { plugins } from '../RichEditor';
 import {
 	serializeHTMLFromNodes,
-	ToolbarButton,
-	addColumn,
-	addRow,
 	BalloonToolbar,
-	deleteColumn,
-	deleteRow,
-	deleteTable,
-	ELEMENT_ALIGN_CENTER,
-	ELEMENT_ALIGN_JUSTIFY,
-	ELEMENT_ALIGN_RIGHT,
 	ELEMENT_BLOCKQUOTE,
 	ELEMENT_CODE_BLOCK,
 	ELEMENT_H1,
 	ELEMENT_H2,
-	ELEMENT_H3,
-	ELEMENT_H4,
-	ELEMENT_H5,
-	ELEMENT_H6,
 	ELEMENT_OL,
 	ELEMENT_UL,
-	insertTable,
 	MARK_BOLD,
 	MARK_CODE,
 	MARK_ITALIC,
 	MARK_KBD,
-	MARK_STRIKETHROUGH,
-	MARK_SUBSCRIPT,
-	MARK_SUPERSCRIPT,
 	MARK_UNDERLINE,
-	ToolbarAlign,
 	ToolbarCodeBlock,
 	ToolbarElement,
 	ToolbarList,
 	ToolbarMark,
-	ToolbarTable,
 	ToolbarLink,
-	ToolbarImage,
 	useStoreEditorRef,
 	useEventEditorId,
 	getPlatePluginType,
@@ -70,6 +49,8 @@ import ItalicIcon from '../../public/italics.svg';
 import UnderlineIcon from '../../public/underline.svg';
 import LinkIcon from '../../public/link.svg';
 import EmojiButton from './EmojiPanel';
+import ImageUpload from './ImageUpload';
+import ImageUploadMD from './ImageUploadMD';
 
 export const ToolbarButtonsBasicElements = () => {
 	const editor = useStoreEditorRef(useEventEditorId('focus'));
@@ -265,7 +246,7 @@ export const ToolbarButtons = ({ setIsMd }: any) => {
 			<EmojiButton />
 
 			{/* Replace the span by intrinsic styles from the toolbar button */}
-			<span
+			<button
 				style={{
 					width: '120px',
 					textAlign: 'center',
@@ -273,6 +254,73 @@ export const ToolbarButtons = ({ setIsMd }: any) => {
 				onMouseDown={() => setIsMd((prev: boolean) => !prev)}
 			>
 				{'Markdown Editor'}
+			</button>
+		</>
+	);
+};
+
+// const Shortcuts = [
+// 	{
+// 		shortcut: '# Header',
+// 		name: 'H1 Header'
+// 	},
+// 	{
+// 		shortcut: '## Header',
+// 		name: 'H2 Header'
+// 	},
+// 	{
+// 		shortcut: '*italic*',
+// 		name: 'Italics'
+// 	},
+// 	{
+// 		shortcut: '**bold**',
+// 		name: 'Bold'
+// 	},
+// 	{
+// 		shortcut: '* item 1 \n * item2',
+// 		name: 'H1 Header'
+// 	},
+// 	{
+// 		shortcut: '# Header',
+// 		name: 'H1 Header'
+// 	},
+// 	{
+// 		shortcut: '# Header',
+// 		name: 'H1 Header'
+// 	},
+// 	{
+// 		shortcut: '# Header',
+// 		name: 'H1 Header'
+// 	},
+
+// ]
+
+export const ToolbarButtonsMD = ({ setIsMd, location }: any) => {
+	const [visible, setVisible] = useState(false);
+
+	function handleOk(event: any) {
+		setVisible((prev) => !prev);
+	}
+
+	return (
+		<>
+			<span>
+				<b>Markdown Editor ?</b>
+			</span>
+			<span
+				style={{
+					display: 'flex',
+					alignItems: 'center',
+					width: '30%',
+					justifyContent: 'space-between',
+				}}
+			>
+				<span>
+					<ImageUploadMD location={location} />
+				</span>
+				<button onMouseDown={() => setIsMd((prev: boolean) => !prev)}>
+					{'Normal Editor'}
+				</button>
 			</span>
 		</>
 	);

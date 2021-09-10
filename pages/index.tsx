@@ -5,11 +5,11 @@ import Plugins from '../src/RichEditor';
 import MDEditor from '../src/MDEditor';
 
 const RichTextPage: NextPage = () => {
-	const [isMd, setIsMd] = useState(false);
+	const [isMd, setIsMd] = useState(true);
 
 	return (
 		<EditorLayout>
-			{true ? <Plugins setIsMd={setIsMd} /> : <MDEditor setIsMd={setIsMd} />}
+			{isMd ? <MDEditor setIsMd={setIsMd} /> : <Plugins setIsMd={setIsMd} />}
 		</EditorLayout>
 	);
 };
