@@ -4,6 +4,7 @@ import { Modal, Table } from 'antd';
 import EmbedButton from './InsertMediaButton';
 import React, { useState } from 'react';
 import { TippyProps } from '@tippyjs/react';
+import QuestionIcon from '../../public/question.svg';
 import {
 	serializeHTMLFromNodes,
 	BalloonToolbar,
@@ -323,14 +324,18 @@ const Shortcuts = [
 	},
 	{
 		shortcut: '> quoted text',
-		render: <blockquote
-			style={{
-				background: 'rgba(0, 128, 128, 0.03)',
-				borderLeft: '3px solid #008080',
-				padding: '5px',
-				paddingLeft: '7px'
-			}}
-		>quoted text</blockquote>,
+		render: (
+			<blockquote
+				style={{
+					background: 'rgba(0, 128, 128, 0.03)',
+					borderLeft: '3px solid #008080',
+					padding: '5px',
+					paddingLeft: '7px',
+				}}
+			>
+				quoted text
+			</blockquote>
+		),
 	},
 	{
 		shortcut: '`inline code`',
@@ -377,9 +382,12 @@ export const ToolbarButtonsMD = ({ setIsMd, location }: any) => {
 			>
 				<Table columns={columns} dataSource={Shortcuts} pagination={false} />
 			</Modal>
-			<span onMouseDown={() => setVisible(true)}>
-				<b>Markdown Editor ?</b>
-			</span>
+			<button className='flex items-center' onMouseDown={() => setVisible(true)}>
+				<b>Markdown Editor</b>
+				<span className="ml-1">
+					<QuestionIcon />
+				</span>
+			</button>
 			<span
 				style={{
 					display: 'flex',

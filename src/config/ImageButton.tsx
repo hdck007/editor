@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
 import React, { useState } from 'react';
-import { Upload } from 'antd';
 import { Input } from 'antd';
 import { createApi } from 'unsplash-js';
 import { Modal } from 'antd';
