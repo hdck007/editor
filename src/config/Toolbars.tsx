@@ -1,6 +1,6 @@
 import 'tippy.js/animations/scale.css';
 import 'tippy.js/dist/tippy.css';
-import { Modal } from 'antd';
+import { Modal, Table } from 'antd';
 import EmbedButton from './InsertMediaButton';
 import React, { useState } from 'react';
 import { TippyProps } from '@tippyjs/react';
@@ -259,52 +259,125 @@ export const ToolbarButtons = ({ setIsMd }: any) => {
 	);
 };
 
-// const Shortcuts = [
-// 	{
-// 		shortcut: '# Header',
-// 		name: 'H1 Header'
-// 	},
-// 	{
-// 		shortcut: '## Header',
-// 		name: 'H2 Header'
-// 	},
-// 	{
-// 		shortcut: '*italic*',
-// 		name: 'Italics'
-// 	},
-// 	{
-// 		shortcut: '**bold**',
-// 		name: 'Bold'
-// 	},
-// 	{
-// 		shortcut: '* item 1 \n * item2',
-// 		name: 'H1 Header'
-// 	},
-// 	{
-// 		shortcut: '# Header',
-// 		name: 'H1 Header'
-// 	},
-// 	{
-// 		shortcut: '# Header',
-// 		name: 'H1 Header'
-// 	},
-// 	{
-// 		shortcut: '# Header',
-// 		name: 'H1 Header'
-// 	},
+const Shortcuts = [
+	{
+		shortcut: '# H1 header',
+		render: (
+			<h1
+				style={{
+					fontSize: '22px',
+				}}
+			>
+				H1 header
+			</h1>
+		),
+	},
+	{
+		shortcut: '## H2 header',
+		render: (
+			<h2
+				style={{
+					fontSize: '18px',
+				}}
+			>
+				H2 header
+			</h2>
+		),
+	},
+	{
+		shortcut: '*italic*',
+		render: <i>italics</i>,
+	},
+	{
+		shortcut: '**bold**',
+		render: <strong>bold</strong>,
+	},
+	{
+		shortcut: (
+			<>
+				* item1
+				<br />* item2
+			</>
+		),
+		render: (
+			<ul>
+				<li>item1</li>
+				<li>item2</li>
+			</ul>
+		),
+	},
+	{
+		shortcut: (
+			<>
+				1. item1
+				<br />
+				2. item2
+			</>
+		),
+		render: (
+			<ol>
+				<li>item1</li>
+				<li>item2</li>
+			</ol>
+		),
+	},
+	{
+		shortcut: '> quoted text',
+		render: <blockquote
+			style={{
+				background: 'rgba(0, 128, 128, 0.03)',
+				borderLeft: '3px solid #008080',
+				padding: '5px',
+				paddingLeft: '7px'
+			}}
+		>quoted text</blockquote>,
+	},
+	{
+		shortcut: '`inline code`',
+		render: (
+			<code
+				style={{
+					background: '#F7F7F7',
+				}}
+			>
+				inline code
+			</code>
+		),
+	},
+];
 
-// ]
+const columns = [
+	{
+		title: 'Shortcuts',
+		dataIndex: 'shortcut',
+		key: 'shortcut',
+	},
+	{
+		title: 'Result',
+		dataIndex: 'render',
+		key: 'render',
+	},
+];
 
 export const ToolbarButtonsMD = ({ setIsMd, location }: any) => {
 	const [visible, setVisible] = useState(false);
 
-	function handleOk(event: any) {
+	function handleClose(event: any) {
 		setVisible((prev) => !prev);
 	}
 
 	return (
 		<>
-			<span>
+			<Modal
+				title='Shortcuts'
+				visible={visible}
+				onCancel={handleClose}
+				style={{ top: 20 }}
+				footer={null}
+			>
+				<Table columns={columns} dataSource={Shortcuts} pagination={false} />
+			</Modal>
+			<span onMouseDown={() => setVisible(true)}>
 				<b>Markdown Editor ?</b>
 			</span>
 			<span
