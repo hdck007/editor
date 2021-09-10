@@ -5,7 +5,7 @@ import Plugins from '../src/RichEditor';
 import MDEditor from '../src/MDEditor';
 
 const RichTextPage: NextPage = () => {
-	const [isMd, setIsMd] = useState(true);
+	const [isMd, setIsMd] = useState(false);
 
 	return (
 		<EditorLayout>
