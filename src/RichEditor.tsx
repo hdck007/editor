@@ -373,7 +373,7 @@ const Plugins = ({ setIsMd }: any) => {
 
 	return (
 		<>
-			<Link href='/html' prefetch={false}>
+			<Link href='/html'>
 				<a
 					style={{
 						textDecoration: 'none',
