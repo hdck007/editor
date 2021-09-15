@@ -82,6 +82,10 @@ import { convertHtmlToNode } from '../utils/htmlToNode/htmlDeserialize';
 import Link from 'next/link';
 
 type TEditor = SPEditor & ReactEditor & HistoryEditor;
+let data: any;
+if (typeof window !== 'undefined') {
+	data = JSON.parse(localStorage.getItem('content') as string);
+}
 
 const id = 'Examples/Prototype';
 
@@ -242,9 +246,7 @@ const Plugins = ({ setIsMd }: any) => {
 
 	// let theResultNode;
 
-	useEffect(() => {
-		
-	}, []);
+	useEffect(() => {}, []);
 
 	const info = [
 		{
@@ -400,7 +402,7 @@ const Plugins = ({ setIsMd }: any) => {
 							const content = JSON.stringify(value);
 							localStorage.setItem('content', content);
 						}}
-						initialValue={JSON.parse(localStorage.getItem('content') as string)}
+						initialValue={data}
 					>
 						<SideToolBar node={node} setNode={setNode} />
 						<div className='z-10 fixed top-0 w-full bg-white'>
