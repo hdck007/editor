@@ -62,3 +62,10 @@ p {
 .upload-btn-custom{
 	display: flex;
 }
+
+.block-quote{
+	padding: 5px;
+	padding-left: 20px;
+	background: rgb(252, 252, 252);
+	border-left: 5px solid teal;
+}

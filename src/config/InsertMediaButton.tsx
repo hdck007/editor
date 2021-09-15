@@ -4,9 +4,7 @@ import Modal from 'antd/lib/modal/Modal';
 import { useState } from 'react';
 import { useEditorRef } from '@udecode/plate-core';
 import { ELEMENT_MEDIA_EMBED } from '@udecode/plate-media-embed';
-import {
-	insertNodes,
-} from '@udecode/plate';
+import { ELEMENT_PARAGRAPH, insertNodes } from '@udecode/plate';
 import { BiVideo } from 'react-icons/bi';
 
 const EmbedButton = ({ editor, location, setNode }: any) => {
@@ -21,13 +19,17 @@ const EmbedButton = ({ editor, location, setNode }: any) => {
 					editor,
 					[
 						{
-							isInline: true,
 							type: ELEMENT_MEDIA_EMBED,
 							url: `https://www.youtube.com/embed/${theUrl.split('=')[1]}`,
 							children: [{ text: '' }],
 						},
 						{
-							text: '',
+							type: ELEMENT_PARAGRAPH,
+							children: [
+								{
+									text: '',
+								},
+							],
 						},
 					],
 					{
@@ -46,7 +48,12 @@ const EmbedButton = ({ editor, location, setNode }: any) => {
 							children: [{ text: '' }],
 						},
 						{
-							text: '',
+							type: ELEMENT_PARAGRAPH,
+							children: [
+								{
+									text: '',
+								},
+							],
 						},
 					],
 					{
@@ -66,7 +73,12 @@ const EmbedButton = ({ editor, location, setNode }: any) => {
 						children: [{ text: '' }],
 					},
 					{
-						text: '',
+						type: ELEMENT_PARAGRAPH,
+						children: [
+							{
+								text: '',
+							},
+						],
 					},
 				],
 				{

@@ -159,6 +159,7 @@ const MDEditor = ({ setIsMd }: any) => {
 						components={components}
 						options={options}
 						editableProps={editableProps}
+						onChange={(value) => console.log(value)}
 					>
 						<div className='left-1/4 z-10 fixed top-0 w-full bg-white'>
 							<HeadingToolbar

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { debounce } from 'lodash';
 import SideToolBar from './config/SideToolBar/SideToolBar';
 import {
@@ -76,6 +76,10 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { HistoryEditor } from 'slate-history';
 import { ReactEditor } from 'slate-react';
+import { withStyledPlaceHolders } from './config/withStyledPlaceHolders';
+import { convertNodeToHtml } from '../utils/toHtml/htmlSerialize';
+import { convertHtmlToNode } from '../utils/htmlToNode/htmlDeserialize';
+import Link from 'next/link';
 
 type TEditor = SPEditor & ReactEditor & HistoryEditor;
 
@@ -158,6 +162,8 @@ let components = createPlateComponents({
 	// customize your components by plugin key
 });
 
+components = withStyledPlaceHolders(components);
+
 const options = createPlateOptions({
 	// customize your options by plugin key
 });
@@ -236,6 +242,20 @@ const Plugins = ({ setIsMd }: any) => {
 	const [node, setNode] = useState(null);
 	const [location, setLocation] = useState(null);
 	const editor = useStoreEditorRef(id);
+	const ref = useRef(null);
+
+	// let theResultNode;
+
+	useEffect(() => {
+		// console.log('This is returned from the editor', JSON.parse(data));
+		// let parent = document.createElement('div');
+		// convertNodeToHtml(parent, JSON.parse(data));
+		// console.log('Converted from nodes', parent);
+		// let temp = document.createElement('div');
+		// localStorage.setItem('dom', temp.innerHTML);
+		// console.log('Converted back from the html', convertHtmlToNode(parent));
+		// // ref.current.appendChild(parent)
+	}, []);
 
 	const info = [
 		{
@@ -362,6 +382,22 @@ const Plugins = ({ setIsMd }: any) => {
 
 	return (
 		<>
+			<Link href='/html'>
+				<a
+					style={{
+						textDecoration: 'none',
+						border: '1px solid blue',
+						position: 'absolute',
+						right: '50px',
+						top: '20px',
+						padding: '5px',
+						borderRadius: '50px',
+						zIndex: 20000,
+					}}
+				>
+					Get HTML
+				</a>
+			</Link>
 			<br />
 			<div className='mx-auto my-9 w-1/2 h-5/6 md:w-6/6 pb-4'>
 				<DndProvider backend={HTML5Backend}>
@@ -374,7 +410,6 @@ const Plugins = ({ setIsMd }: any) => {
 						onChange={(value) => {
 							const content = JSON.stringify(value);
 							localStorage.setItem('content', content);
-							return debounce(storeInLocal, 300);
 						}}
 						initialValue={data ? JSON.parse(data) : info}
 					>
@@ -398,6 +433,14 @@ const Plugins = ({ setIsMd }: any) => {
 					</Plate>
 				</DndProvider>
 			</div>
+			{/* <div
+				ref={ref}
+				style={{
+					margin: 'auto',
+					height: '600px',
+					width: '600px',
+				}}
+			></div> */}
 		</>
 	);
 };
