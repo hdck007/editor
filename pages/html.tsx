@@ -3,21 +3,22 @@ import { useEffect, useRef } from 'react';
 import { convertHtmlToNode } from '../utils/htmlToNode/deserializePrev';
 import { convertNodeToHtml } from '../utils/toHtml/htmlSerialize';
 
-let data: any = null;
-if (typeof window !== 'undefined') {
-	data = localStorage.getItem('content');
-}
-
 const RichTextPage: NextPage = () => {
 	const ref = useRef(null);
 
 	useEffect(() => {
+    let data = localStorage.getItem('content');
 		let parent = document.createElement('div');
 		parent.classList.add('w-full');
-		convertNodeToHtml(parent, JSON.parse(data));
+		convertNodeToHtml(parent, JSON.parse(data as string));
+    console.log('This is returned from the editor', JSON.parse(data as string));
+		let temp = document.createElement('div');
+    console.log('This is converted dom', parent)
+		localStorage.setItem('dom', temp.innerHTML);
+		console.log('Converted back from the html', convertHtmlToNode(parent));
 		// @ts-ignore
-		ref.current.appendChild(parent);
-	}, []);
+		ref.current.appendChild(parent)
+	}, [ref]);
 
 	return (
 		<>

@@ -84,10 +84,6 @@ import Link from 'next/link';
 type TEditor = SPEditor & ReactEditor & HistoryEditor;
 
 const id = 'Examples/Prototype';
-let data: any = null;
-if (typeof window !== 'undefined') {
-	data = localStorage.getItem('content');
-}
 
 export const createElement = (
 	text = '',
@@ -247,14 +243,7 @@ const Plugins = ({ setIsMd }: any) => {
 	// let theResultNode;
 
 	useEffect(() => {
-		// console.log('This is returned from the editor', JSON.parse(data));
-		// let parent = document.createElement('div');
-		// convertNodeToHtml(parent, JSON.parse(data));
-		// console.log('Converted from nodes', parent);
-		// let temp = document.createElement('div');
-		// localStorage.setItem('dom', temp.innerHTML);
-		// console.log('Converted back from the html', convertHtmlToNode(parent));
-		// // ref.current.appendChild(parent)
+		
 	}, []);
 
 	const info = [
@@ -411,7 +400,7 @@ const Plugins = ({ setIsMd }: any) => {
 							const content = JSON.stringify(value);
 							localStorage.setItem('content', content);
 						}}
-						initialValue={data ? JSON.parse(data) : info}
+						initialValue={JSON.parse(localStorage.getItem('content') as string)}
 					>
 						<SideToolBar node={node} setNode={setNode} />
 						<div className='z-10 fixed top-0 w-full bg-white'>
