@@ -15,10 +15,14 @@ const Picker = () => {
 			editor.insertText(event.detail.unicode);
 		});
 		ref.current.skinToneEmoji = '👍';
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	return React.createElement('emoji-picker', { ref, class: 'light z-10' });
+	return React.createElement('emoji-picker', {
+		ref,
+		class: 'light z-10',
+		id: 'my-search',
+	});
 };
 
 export default function EmojiButton() {

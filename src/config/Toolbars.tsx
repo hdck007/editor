@@ -247,7 +247,7 @@ export const ToolbarButtons = ({ setIsMd }: any) => {
 			<EmojiButton />
 
 			{/* Replace the span by intrinsic styles from the toolbar button */}
-			<button
+			{/* <button
 				style={{
 					width: '120px',
 					textAlign: 'center',
@@ -255,7 +255,7 @@ export const ToolbarButtons = ({ setIsMd }: any) => {
 				onMouseDown={() => setIsMd((prev: boolean) => !prev)}
 			>
 				{'Markdown Editor'}
-			</button>
+			</button> */}
 		</>
 	);
 };

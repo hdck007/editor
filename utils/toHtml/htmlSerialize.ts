@@ -7,6 +7,7 @@ import { ELEMENT_IMAGE } from '@udecode/plate-image';
 import {
 	ELEMENT_H1,
 	ELEMENT_H2,
+	ELEMENT_H3,
 	ELEMENT_PARAGRAPH,
 	ELEMENT_CODE_BLOCK,
 	ELEMENT_UL,
@@ -31,6 +32,12 @@ export function convertNodeToHtml(parent: any, nodes: any) {
 					break;
 				}
 				case ELEMENT_H2: {
+					childNode = document.createElement('h2');
+					childNode.classList.add('text-2xl')
+					convertNodeToHtml(childNode, node.children);
+					break;
+				}
+				case ELEMENT_H3: {
 					childNode = document.createElement('h2');
 					childNode.classList.add('text-2xl')
 					convertNodeToHtml(childNode, node.children);

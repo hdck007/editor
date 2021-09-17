@@ -69,3 +69,31 @@ p {
 	background: rgb(252, 252, 252);
 	border-left: 5px solid teal;
 }
+
+#editor-tealfeed h1::before{
+	content: '# ';
+}
+
+#editor-tealfeed strong::before, #editor-tealfeed strong::after{
+	content: '**';
+}
+
+#editor-tealfeed em::before, #editor-tealfeed em::after{
+	content: '_';
+}
+
+#editor-tealfeed code::before, #editor-tealfeed code::after{
+	content: '`';
+}
+
+#rich-editor-tealfeed figure{
+	margin: auto;
+}
+
+#rich-editor-tealfeed figure img{
+	margin: auto;
+}
+
+#mysearch input[role="combobox"]{
+	display: none !important;
+}

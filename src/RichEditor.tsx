@@ -84,7 +84,7 @@ import Link from 'next/link';
 type TEditor = SPEditor & ReactEditor & HistoryEditor;
 let data: any;
 if (typeof window !== 'undefined') {
-	data = JSON.parse(localStorage.getItem('content') as string);
+	data = JSON.parse(localStorage.getItem('cool') as string);
 }
 
 const id = 'Examples/Prototype';
@@ -136,7 +136,8 @@ let components = createPlateComponents({
 				maxHeight: '40rem !important',
 			},
 			img: {
-				width: '100%',
+				width: '100% !important',
+				margin: 'auto',
 				maxHeight: '40rem !important',
 			},
 		},
@@ -373,7 +374,7 @@ const Plugins = ({ setIsMd }: any) => {
 
 	return (
 		<>
-			<Link href='/html'>
+			{/* <Link href='/html'>
 				<a
 					style={{
 						textDecoration: 'none',
@@ -388,9 +389,13 @@ const Plugins = ({ setIsMd }: any) => {
 				>
 					Get HTML
 				</a>
-			</Link>
+			</Link> */}
 			<br />
-			<div className='mx-auto my-9 w-1/2 h-5/6 md:w-6/6 pb-4'>
+			<br />
+			<div
+				className='mx-auto my-9 w-1/2 h-5/6 md:w-6/6 pb-4'
+				id='rich-editor-tealfeed'
+			>
 				<DndProvider backend={HTML5Backend}>
 					<Plate
 						id={id}
@@ -405,13 +410,13 @@ const Plugins = ({ setIsMd }: any) => {
 						initialValue={data}
 					>
 						<SideToolBar node={node} setNode={setNode} />
-						<div className='z-10 fixed top-0 w-full bg-white'>
+						<div className='z-10 fixed top-0 left-0 w-full bg-white'>
 							<HeadingToolbar
 								style={{
 									border: 'none',
 								}}
 							>
-								<div className='w-1/2 z-10 rounded-lg flex items-center justify-around flex-wrap'>
+								<div className='w-1/2 m-auto z-10 rounded-lg flex items-center justify-around flex-wrap'>
 									<ToolbarButtons setIsMd={setIsMd} />
 								</div>
 							</HeadingToolbar>
