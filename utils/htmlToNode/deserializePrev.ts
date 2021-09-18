@@ -10,41 +10,31 @@ const nodeNames = ['strong', 'em', 'underline'];
 // let element = document.createElement('div');
 function getNodesFromHtml(html: any, parentNode: any) {
 	try {
-		for (let node of html.children) {
-			if (node?.children.length) {
+		for (let node of html.childNodes) {
+			if (node?.hasChildNodes()) {
 				switch (node?.nodeName.toLowerCase()) {
 					case 'p':
 					case 'h1':
+					case 'h2':
 					case 'h3':
 					case 'ul':
 					case 'li':
 					case 'ol':
 					case 'ul':
-					case 'code': {
+					case 'code':
+					case 'blockquote': {
 						let type =
 							node?.nodeName.toLowerCase() === 'h3'
 								? 'h2'
 								: node?.nodeName.toLowerCase();
 						let currentNode;
-						if (node?.children.length) {
-							currentNode = {
-								type,
-								children: [],
-							};
-							let index = parentNode.children.length;
-							parentNode.children.push(currentNode);
-							getNodesFromHtml(node, parentNode.children[index]);
-						} else {
-							currentNode = {
-								type,
-								children: [
-									{
-										text: '',
-									},
-								],
-							};
-							parentNode.children.push(currentNode);
-						}
+						currentNode = {
+							type,
+							children: [],
+						};
+						let index = parentNode.children.length;
+						parentNode.children.push(currentNode);
+						getNodesFromHtml(node, parentNode.children[index]);
 						break;
 					}
 					case 'figure': {
@@ -66,8 +56,19 @@ function getNodesFromHtml(html: any, parentNode: any) {
 						parentNode.children.push(currentNode);
 						break;
 					}
+					case 'a': {
+						let type = node?.nodeName.toLowerCase();
+						let currentNode = {
+							type,
+							url: node.href,
+							children: [],
+						};
+						let index = parentNode.children.length;
+						parentNode.children.push(currentNode);
+						getNodesFromHtml(node, parentNode.children[index]);
+						break;
+					}
 					case 'strong': {
-						console.log(node?.nodeName, node.innerText);
 						if (nodeNames.includes(node?.parentNode.nodeName.toLowerCase())) {
 							parentNode.bold = true;
 							getNodesFromHtml(node, parentNode);
@@ -114,63 +115,10 @@ function getNodesFromHtml(html: any, parentNode: any) {
 					}
 				}
 			} else {
-				let currentNode: any;
-				if (node?.nodeName.toLowerCase() === 'a') {
-					console.log(node?.parentNode.childNodes);
-					let type = node?.nodeName.toLowerCase();
-					currentNode = {
-						type,
-						url: node.href,
-						children: [
-							{
-								text: node.innerText,
-							},
-						],
-					};
-					parentNode.children.push(currentNode);
-				} else if (node?.nodeName.toLowerCase() === 'strong') {
-					// console.log(node?.nodeName, node.innerText)
-					if (nodeNames.includes(node?.parentNode.nodeName.toLowerCase())) {
-						console.log('happens');
-						parentNode.bold = true;
-					} else {
-						currentNode = {
-							text: node.innerText,
-							bold: true,
-						};
-						parentNode.children.push(currentNode);
-					}
-				} else if (node?.nodeName.toLowerCase() === 'em') {
-					if (nodeNames.includes(node?.parentNode.nodeName.toLowerCase())) {
-						parentNode.italic = true;
-					} else {
-						currentNode = {
-							text: node.innerText,
-							italic: true,
-						};
-						parentNode.children.push(currentNode);
-					}
-				} else if (node?.nodeName.toLowerCase() === 'underline') {
-					if (nodeNames.includes(node?.parentNode.nodeName.toLowerCase())) {
-						parentNode.underline = true;
-					} else {
-						currentNode = {
-							text: node.innerText,
-							underline: true,
-						};
-						parentNode.children.push(currentNode);
-					}
-				} else {
-					currentNode = {
-						type: node?.nodeName.toLowerCase(),
-						children: [
-							{
-								text: node.innerText,
-							},
-						],
-					};
-					parentNode?.children?.push(currentNode);
-				}
+				let currentNode: any = {
+					text: node.textContent,
+				};
+				parentNode?.children?.push(currentNode);
 			}
 		}
 	} catch (err) {

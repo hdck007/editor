@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import 'tippy.js/animations/scale.css';
 import 'tippy.js/dist/tippy.css';
 import { Modal, Table } from 'antd';
@@ -53,7 +54,7 @@ import EmojiButton from './EmojiPanel';
 import ImageUpload from './ImageUpload';
 import ImageUploadMD from './ImageUploadMD';
 
-export const ToolbarButtonsBasicElements = () => {
+export const ToolbarButtonsBasicElements = React.memo(() => {
 	const editor = useStoreEditorRef(useEventEditorId('focus'));
 
 	return (
@@ -76,9 +77,9 @@ export const ToolbarButtonsBasicElements = () => {
 			/>
 		</>
 	);
-};
+});
 
-export const ToolbarButtonsList = () => {
+export const ToolbarButtonsList = React.memo(() => {
 	const editor = useStoreEditorRef(useEventEditorId('focus'));
 
 	return (
@@ -93,9 +94,9 @@ export const ToolbarButtonsList = () => {
 			/>
 		</>
 	);
-};
+});
 
-export const ToolbarButtonsBasicMarks = () => {
+export const ToolbarButtonsBasicMarks = React.memo(() => {
 	const editor = useStoreEditorRef(useEventEditorId('focus'));
 
 	return (
@@ -118,7 +119,7 @@ export const ToolbarButtonsBasicMarks = () => {
 			/>
 		</>
 	);
-};
+});
 
 export const ToolbarKbd = () => {
 	const editor = useStoreEditorRef(useEventEditorId('focus'));
@@ -199,7 +200,7 @@ const createCustomImagePlugin = () => {
 	};
 };
 
-export const ToolbarButtons = ({ setIsMd }: any) => {
+export const ToolbarButtons = React.memo(({ setIsMd }: any) => {
 	const editor = useEditorRef();
 
 	let data;
@@ -258,7 +259,7 @@ export const ToolbarButtons = ({ setIsMd }: any) => {
 			</button> */}
 		</>
 	);
-};
+});
 
 const Shortcuts = [
 	{
@@ -382,9 +383,12 @@ export const ToolbarButtonsMD = ({ setIsMd, location }: any) => {
 			>
 				<Table columns={columns} dataSource={Shortcuts} pagination={false} />
 			</Modal>
-			<button className='flex items-center' onMouseDown={() => setVisible(true)}>
+			<button
+				className='flex items-center'
+				onMouseDown={() => setVisible(true)}
+			>
 				<b>Markdown Editor</b>
-				<span className="ml-1">
+				<span className='ml-1'>
 					<QuestionIcon />
 				</span>
 			</button>
